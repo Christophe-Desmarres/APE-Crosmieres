@@ -1,0 +1,73 @@
+//HOVER NAV ANIMATE HEADER
+div:hover{
+    filter: brightness(1.2);
+}
+
+div:after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    transform: scaleX(0);
+    height: 2px;
+    bottom: -7px;
+    left: 0;
+    background-color: $blue-bg-header;
+    transform-origin: bottom right;
+    transition: transform 0.50s ease-out;
+    }
+div:hover:after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+    } 
+    .header--nav__home:after{
+            background-color: $green; 
+        }
+        .header--nav__sale:after{
+                background-color: $orange ;
+            
+        }
+        .header--nav__event:after{
+                background-color: $red;
+            }
+        
+        .header--nav__presentation:after{
+                background-color: $pink;
+            }
+        
+        .header--nav__Inscription:after{
+                background-color: $pink;
+            }
+        
+        .header--nav__Connexion:after{
+                background-color: $purple;
+            }
+
+            .header--nav__backoffice:after {
+                background-color: $purple;
+            }
+        
+        
+
+//HOVER LI ANIMATE FOOTER
+
+    li:hover{
+        filter: url();
+    }
+
+li:after {
+    content: "";
+    position: absolute;
+    width: 30%;
+    transform: scaleX(0);
+    height: 1.5px;
+    bottom: -4px;
+    left: 35%;
+    background-color: $red;
+    transform-origin: bottom right;
+    transition: transform 0.5s cubic-bezier(0, 0, 0.42, 0.76);
+    filter: brightness(1.5);
+    }
+li:hover:after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+    } 
