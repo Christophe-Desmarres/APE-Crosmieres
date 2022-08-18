@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const apiClient = axios.create({
-    baseURL: `http://apecrosmieres.local/wp-json`,
+    baseURL: `http://christophe-desmarres-server.eddi.cloud/wp-json`,
     headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',

@@ -12,36 +12,38 @@
       <button class="search-icon"><i class="fa fa-search"></i></button>
       <input
         type="text"
-        placeholder="Rechercher par nom"
+        placeholder="Rechercher par nom, prénom ou rôle"
         v-model="searchString"
       />
     </div>
-
     <div
-      style="width: 100%; display: flex; justify-content: center"
+      class="container"
       v-if="this.$store.getters.getRole === 'administrator'"
     >
-      <ul class="userlist--ul__container">
-        <li v-for="user in usersNewList" v-bind:key="user.id">
-          <div class="detail">
-            <div>
-              <p>{{ user.last_name }} {{ user.first_name }}</p>
-              <p>{{ user.email }}</p>
-              <p>{{ user.phone }}</p>
-            </div>
-            <div>
-              <!-- <p class="role">Rôle : {{ user.roles[0] }}</p> -->
-              <p class="role" v-if="user.roles[0] === 'administrator'">
-                Rôle : Administrateur
-              </p>
-              <p class="role" v-if="user.roles[0] === 'apeuser'">
-                Rôle : Utilisateur APE
-              </p>
-              <p class="role" v-if="user.roles[0] === 'apemember'">
-                Rôle : Membre APE
-              </p>
-            </div>
+      <ul class="responsive-table">
+        <li class="table-header">
+          <div class="col col-1">Nom</div>
+          <div class="col col-2">Rôle</div>
+          <div class="col col-3">Téléphone</div>
+          <div class="col col-4">Email</div>
+          <div class="col col-5"></div>
+        </li>
+
+        <li class="table-row" v-for="user in usersNewList" v-bind:key="user.id">
+          <div class="col col-1" data-label="Nom">
+            {{ user.first_name }} {{ user.last_name }}
           </div>
+          <div class="col col-2" data-label="Rôle">
+            <p class="role" v-if="user.roles[0] === 'administrator'">
+              Administrateur
+            </p>
+            <p class="role" v-if="user.roles[0] === 'apeuser'">
+              Utilisateur APE
+            </p>
+            <p class="role" v-if="user.roles[0] === 'apemember'">Membre APE</p>
+          </div>
+          <div class="col col-3" data-label="Téléphone">{{ user.phone }}</div>
+          <div class="col col-4" data-label="Email">{{ user.email }}</div>
           <!-- Only the admin can modify the users list -->
           <div
             v-if="this.$store.getters.getRole === 'administrator'"
@@ -51,35 +53,18 @@
             <img
               v-on:click="chooseARole(user)"
               v-bind:src="edit"
-              class="picture"
+              class="picture col-5"
               title="Modifier le rôle de ce compte"
             />
 
             <!-- Calls a popup to confirm the user's delete -->
             <img
               v-on:click="deleteUserConfirm(user)"
-              class="picture"
+              class="picture col-5"
               title="Supprimer ce compte"
               alt="trash"
               v-bind:src="trash"
             />
-          </div>
-        </li>
-      </ul>
-    </div>
-
-    <div
-      style="width: 100%; display: flex; justify-content: center"
-      v-if="this.$store.getters.getRole === 'apemember'"
-    >
-      <ul class="userlist--ul__container">
-        <li v-for="user in usersNewListMember" v-bind:key="user.id">
-          <div class="detail">
-            <div>
-              <p>{{ user.display_name }}</p>
-              <p>{{ user.user_email }}</p>
-              <p>{{ user.phone }}</p>
-            </div>
           </div>
         </li>
       </ul>
@@ -315,6 +300,26 @@ export default {
                 .normalize("NFD")
                 .replace(/[\u0300-\u036f]/g, "")
                 .toLowerCase()
+            ) ||
+          user.first_name
+            .toLowerCase()
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "")
+            .includes(
+              this.searchString
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "")
+                .toLowerCase()
+            ) ||
+          user.roles[0]
+            .toLowerCase()
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "")
+            .includes(
+              this.searchString
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "")
+                .toLowerCase()
             )
         ) {
           return true;
@@ -396,43 +401,88 @@ section {
     margin-right: 5px;
     margin-left: 2rem;
   }
-  .userlist--ul__container {
+  .container {
     width: 100%;
-  }
-  // SCSS for the li boxes
-  li {
-    max-width: 65rem;
-    background-color: $white;
-    width: 100%;
-    height: auto;
-    margin: 0.2rem auto;
-    border-radius: 1rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 0px 17px 34px -20px $blue-bg-header;
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 10px;
+    padding-right: 10px;
 
-    .picture {
-      height: 3rem;
-      cursor: pointer;
-    }
+    .responsive-table {
+      li {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 25px;
+        background-color: $white;
+        height: auto;
+        margin: 0.2rem auto;
+        border-radius: 1rem;
+        box-shadow: 0px 17px 34px -20px $blue-bg-header;
+        padding: 1rem;
+      }
+      .table-header {
+        background-color: #95a5a6;
+        font-size: 14px;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+      }
+      .table-row {
+        background-color: #ffffff;
+        box-shadow: 0px 0px 9px 0px rgba(0, 0, 0, 0.1);
+      }
+      .col-1 {
+        flex-basis: 20%;
+      }
+      .col-2 {
+        flex-basis: 20%;
+      }
+      .col-3 {
+        flex-basis: 20%;
+      }
+      .col-4 {
+        flex-basis: 20%;
+      }
+      .col-5 {
+        flex-basis: 20%;
+      }
+      .picture {
+        height: 3rem;
+        cursor: pointer;
+      }
 
-    .picture:hover {
-      filter: brightness(1.1);
-      transform: scale(1.2);
-    }
+      .picture:hover {
+        filter: brightness(1.1);
+        transform: scale(1.2);
+      }
+      .change {
+        margin-right: 1rem;
+      }
 
-    .change {
-      margin-right: 1rem;
-    }
-
-    p {
-      text-align: left;
-      margin-bottom: 0.2rem;
-    }
-
-    .detail {
-      padding: 1rem;
+      @media all and (max-width: 767px) {
+        .table-header {
+          display: none;
+        }
+        .table-row {
+        }
+        li {
+          display: block;
+        }
+        .col {
+          flex-basis: 100%;
+        }
+        .col {
+          display: flex;
+          padding: 10px 0;
+          &:before {
+            color: #6c7a89;
+            padding-right: 10px;
+            content: attr(data-label);
+            flex-basis: 50%;
+            text-align: right;
+          }
+        }
+      }
     }
   }
 
