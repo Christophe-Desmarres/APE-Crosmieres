@@ -12,28 +12,59 @@
       <button class="search-icon"><i class="fa fa-search"></i></button>
       <input
         type="text"
-        placeholder="Rechercher par nom, prénom ou rôle"
+        v-bind:placeholder="
+          this.$store.getters.getRole === 'administrator'
+            ? 'Rechercher par nom, prénom ou rôle'
+            : 'Rechercher par nom, prénom'
+        "
         v-model="searchString"
       />
     </div>
+
     <div
       class="container"
-      v-if="this.$store.getters.getRole === 'administrator'"
+      v-if="
+        this.$store.getters.getRole === 'administrator' ||
+        this.$store.getters.getRole === 'apemember'
+      "
     >
       <ul class="responsive-table">
         <li class="table-header">
           <div class="col col-1">Nom</div>
-          <div class="col col-2">Rôle</div>
+          <div
+            class="col col-2"
+            v-if="this.$store.getters.getRole === 'administrator'"
+          >
+            Rôle
+          </div>
           <div class="col col-3">Téléphone</div>
           <div class="col col-4">Email</div>
-          <div class="col col-5"></div>
+          <div
+            class="col col-5"
+            v-if="this.$store.getters.getRole === 'administrator'"
+          ></div>
         </li>
 
         <li class="table-row" v-for="user in usersNewList" v-bind:key="user.id">
-          <div class="col col-1" data-label="Nom">
+          <div
+            class="col col-1"
+            data-label="Nom"
+            v-if="this.$store.getters.getRole === 'administrator'"
+          >
             {{ user.first_name }} {{ user.last_name }}
           </div>
-          <div class="col col-2" data-label="Rôle">
+          <div
+            class="col col-1"
+            data-label="Nom"
+            v-if="this.$store.getters.getRole === 'apemember'"
+          >
+            {{ user.display_name }}
+          </div>
+          <div
+            class="col col-2"
+            data-label="Rôle"
+            v-if="this.$store.getters.getRole === 'administrator'"
+          >
             <p class="role" v-if="user.roles[0] === 'administrator'">
               Administrateur
             </p>
@@ -43,12 +74,23 @@
             <p class="role" v-if="user.roles[0] === 'apemember'">Membre APE</p>
           </div>
           <div class="col col-3" data-label="Téléphone">{{ user.phone }}</div>
-          <div class="col col-4" data-label="Email">{{ user.email }}</div>
-          <!-- Only the admin can modify the users list -->
           <div
+            class="col col-4"
+            data-label="Email"
             v-if="this.$store.getters.getRole === 'administrator'"
-            class="change"
           >
+            {{ user.email }}
+          </div>
+          <div
+            class="col col-4"
+            data-label="Email"
+            v-if="this.$store.getters.getRole === 'apemember'"
+          >
+            {{ user.user_email }}
+          </div>
+          <!-- Only the admin can modify the users list -->
+          <div v-if="this.$store.getters.getRole === 'apemember'"></div>
+          <div v-if="this.$store.getters.getRole === 'administrator'">
             <!-- Calls the chooseARole methods et make appears the selected form -->
             <img
               v-on:click="chooseARole(user)"
@@ -193,8 +235,8 @@ export default {
 
     if (this.$store.getters.getRole === "apemember") {
       // Contain the users list returns by the API
-      this.usersMember = await UserLoginService.findAllForMember();
-      this.usersMember.forEach(async (user) => {
+      this.users = await UserLoginService.findAllForMember();
+      this.users.forEach(async (user) => {
         let phone = "";
         // for current user, we retrieve the meta data
         let arrayMeta = await UserLoginService.getMeta(user.id);
@@ -284,71 +326,69 @@ export default {
   },
 
   computed: {
-    // Method to find a user by name
+    // Method to find a user by firstname, lastname or role
     usersNewList() {
       //Return an array that contains the rows where the callback returned true
+
       return this.users.filter((user) => {
         // We take the name of the current user and we check if the searched term is contained in this name.
         // If yes, return true
-        if (
-          user.last_name
-            .toLowerCase()
-            .normalize("NFD")
-            .replace(/[\u0300-\u036f]/g, "")
-            .includes(
-              this.searchString
-                .normalize("NFD")
-                .replace(/[\u0300-\u036f]/g, "")
-                .toLowerCase()
-            ) ||
-          user.first_name
-            .toLowerCase()
-            .normalize("NFD")
-            .replace(/[\u0300-\u036f]/g, "")
-            .includes(
-              this.searchString
-                .normalize("NFD")
-                .replace(/[\u0300-\u036f]/g, "")
-                .toLowerCase()
-            ) ||
-          user.roles[0]
-            .toLowerCase()
-            .normalize("NFD")
-            .replace(/[\u0300-\u036f]/g, "")
-            .includes(
-              this.searchString
-                .normalize("NFD")
-                .replace(/[\u0300-\u036f]/g, "")
-                .toLowerCase()
-            )
-        ) {
-          return true;
-        } else {
-          return false;
-        }
-      });
-    },
-
-    usersNewListMember() {
-      //Return an array that contains the rows where the callback returned true
-      return this.usersMember.filter((user) => {
-        // We take the name of the current user and we check if the searched term is contained in this name.
-        // If yes, return true
-        if (
-          user.display_name
-            .toLowerCase()
-            .normalize("NFD")
-            .replace(/[\u0300-\u036f]/g, "")
-            .includes(
-              this.searchString
-                .normalize("NFD")
-                .replace(/[\u0300-\u036f]/g, "")
-                .toLowerCase()
-            )
-        ) {
-          return true;
-        } else {
-          return false;
+        if (this.$store.getters.getRole === "administrator") {
+          if (
+            user.last_name
+              .toLowerCase()
+              .normalize("NFD")
+              .replace(/[\u0300-\u036f]/g, "")
+              .includes(
+                this.searchString
+                  .normalize("NFD")
+                  .replace(/[\u0300-\u036f]/g, "")
+                  .toLowerCase()
+              ) ||
+            user.first_name
+              .toLowerCase()
+              .normalize("NFD")
+              .replace(/[\u0300-\u036f]/g, "")
+              .includes(
+                this.searchString
+                  .normalize("NFD")
+                  .replace(/[\u0300-\u036f]/g, "")
+                  .toLowerCase()
+              ) ||
+            user.roles[0]
+              .toLowerCase()
+              .normalize("NFD")
+              .replace(/[\u0300-\u036f]/g, "")
+              .includes(
+                this.searchString
+                  .normalize("NFD")
+                  .replace(/[\u0300-\u036f]/g, "")
+                  .toLowerCase()
+              )
+          ) {
+            return true;
+          } else {
+            return false;
+          }
+        } else if (this.$store.getters.getRole === "apemember") {
+          // We take the name of the current user and we check if the searched term is contained in this name.
+          // If yes, return true
+          if (
+            user.display_name
+              .toLowerCase()
+              .normalize("NFD")
+              .replace(/[\u0300-\u036f]/g, "")
+              .includes(
+                this.searchString
+                  .normalize("NFD")
+                  .replace(/[\u0300-\u036f]/g, "")
+                  .toLowerCase()
+              )
+          ) {
+            return true;
+          } else {
+            return false;
+          }
         }
       });
     },
@@ -403,7 +443,6 @@ section {
   }
   .container {
     width: 100%;
-    max-width: 1000px;
     margin-left: auto;
     margin-right: auto;
     padding-left: 10px;
@@ -412,7 +451,9 @@ section {
     .responsive-table {
       li {
         display: flex;
-        justify-content: space-between;
+        justify-content: flex-start;
+        text-align: left;
+        align-items: center;
         margin-bottom: 25px;
         background-color: $white;
         height: auto;
@@ -423,7 +464,7 @@ section {
       }
       .table-header {
         background-color: #95a5a6;
-        font-size: 14px;
+        font-size: 1rem;
         text-transform: uppercase;
         letter-spacing: 0.03em;
       }
@@ -444,19 +485,16 @@ section {
         flex-basis: 20%;
       }
       .col-5 {
-        flex-basis: 20%;
+        flex-basis: maw-content;
       }
       .picture {
-        height: 3rem;
+        width: 50%;
         cursor: pointer;
       }
 
       .picture:hover {
         filter: brightness(1.1);
         transform: scale(1.2);
-      }
-      .change {
-        margin-right: 1rem;
       }
 
       @media all and (max-width: 767px) {
@@ -481,6 +519,10 @@ section {
             flex-basis: 50%;
             text-align: right;
           }
+        }
+        .picture {
+          width: auto;
+          margin: auto 0;
         }
       }
     }
