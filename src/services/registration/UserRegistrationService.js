@@ -1,13 +1,9 @@
 import axios from 'axios';
+import axiosConfig from '@/assets/js/index';
 
-const apiClient = axios.create({
-    baseURL: `http://christophe-desmarres-server.eddi.cloud/wp-json`,
-    headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-    },
-    timeout: 10000
-});
+const apiClient = axios.create(
+    axiosConfig
+);
 
 export default {
     async register(params) {

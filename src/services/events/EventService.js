@@ -1,16 +1,10 @@
 import axios from 'axios';
+import axiosConfig from '@/assets/js/index';
 
-const apiClient = axios.create({
-    baseURL: 'http://christophe-desmarres-server.eddi.cloud/wp-json/wp/v2',
-    headers: {
-        Accept: 'application/json',
-        // Authorization: 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9hcGVjcm9zbWllcmVzLmxvY2FsIiwiaWF0IjoxNjU4NzYyNTkzLCJuYmYiOjE2NTg3NjI1OTMsImV4cCI6MTY1OTM2NzM5MywiZGF0YSI6eyJ1c2VyIjp7ImlkIjoxLCJkZXZpY2UiOiIiLCJwYXNzIjoiYmZhNmRhYTVlNTRjNGY3MzU4ZDNhMGI3YTQ4Y2RkNmYifX19.0KrEEAZCD16AjhdMkjs6m_z1-2X5uEE8QD05W6rTNZc'
+const apiClient = axios.create(
+    axiosConfig
+);
 
-
-    },
-    timeout: 10000
-
-})
 
 export default {
     // Get the list of all the events with their metadata

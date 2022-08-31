@@ -1,18 +1,15 @@
 import axios from 'axios';
+import axiosConfig from '@/assets/js/index';
 
-const apiClient = axios.create({
-    baseURL: `http://christophe-desmarres-server.eddi.cloud/wp-json`,
-    headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        Authorization: 'Bearer' + sessionStorage.getItem('token') + ''
-    },
-    timeout: 10000
-});
+const apiClient = axios.create(
+    axiosConfig
+);
 
 export default {
 
     async delete() {
+        apiClient.defaults.headers.common['Authorization'] = 'Bearer ' + sessionStorage.getItem('token') + '';
+
         try {
             const response = await apiClient.delete('/wp/v2/user', {
                 "force": true,
@@ -25,6 +22,8 @@ export default {
     },
 
     async deleteById(id) {
+        apiClient.defaults.headers.common['Authorization'] = 'Bearer ' + sessionStorage.getItem('token') + '';
+
         try {
             const response = await apiClient.delete('/wp/v2/users/' + id + '?reassign=1&force=true');
             return response.data;
@@ -34,6 +33,8 @@ export default {
     },
 
     async update(id, params) {
+        apiClient.defaults.headers.common['Authorization'] = 'Bearer ' + sessionStorage.getItem('token') + '';
+
         try {
             const response = await apiClient.post('/wp/v2/users/' + id, params);
             return response.data
@@ -43,6 +44,8 @@ export default {
     },
 
     async updatePhone(id, params) {
+        apiClient.defaults.headers.common['Authorization'] = 'Bearer ' + sessionStorage.getItem('token') + '';
+
         try {
             const response = await apiClient.put('/wp/v2/users/meta/' + id, params);
             return response.data
@@ -52,6 +55,8 @@ export default {
     },
     // to send email for event registration
     async sendEmail(params) {
+        apiClient.defaults.headers.common['Authorization'] = 'Bearer ' + sessionStorage.getItem('token') + '';
+
         apiClient.defaults.headers.common['Content-Type'] = "text/html";
 
         try {

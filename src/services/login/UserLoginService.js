@@ -1,13 +1,9 @@
 import axios from 'axios';
+import axiosConfig from '@/assets/js/index';
 
-const apiClient = axios.create({
-    baseURL: `http://christophe-desmarres-server.eddi.cloud/wp-json`,
-    headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-    },
-    timeout: 10000
-});
+const apiClient = axios.create(
+    axiosConfig
+);
 
 export default {
     async login(param) {
@@ -23,7 +19,7 @@ export default {
     async getRoles(id) {
         try {
             apiClient.defaults.headers.common['Authorization'] = 'Bearer ' + sessionStorage.getItem('token') + '';
-            const role = await apiClient.get('/wp/v2/users/' + id + '?context=edit');
+            const role = await apiClient.get('/users/' + id + '?context=edit');
             return role.data
         } catch (error) {
             return error.response.data
@@ -33,7 +29,7 @@ export default {
     async find(id) {
         apiClient.defaults.headers.common['Authorization'] = 'Bearer ' + sessionStorage.getItem('token') + '';
         try {
-            const response = await apiClient.get("/wp/v2/users/" + id + "?context=edit" );
+            const response = await apiClient.get("/users/" + id + "?context=edit" );
             return response.data;
         } catch (error) {
             return error.response.data
@@ -43,7 +39,7 @@ export default {
     async getMeta(id) {
          apiClient.defaults.headers.common['Authorization'] = 'Bearer ' + sessionStorage.getItem('token') + '';
         try {
-            const meta = await apiClient.get('/wp/v2/users/meta/'+ id +'');
+            const meta = await apiClient.get('/users/meta/'+ id +'');
             return meta.data
         } catch(error) {
             return error.response.data
@@ -52,7 +48,7 @@ export default {
     async findAll() {
         apiClient.defaults.headers.common['Authorization'] = 'Bearer ' + sessionStorage.getItem('token') + '';
         try {
-            const response = await apiClient.get("/wp/v2/users/?context=edit");
+            const response = await apiClient.get("/users/?context=edit");
             return response.data;
         } catch (error) {
             return error.response.data
@@ -62,7 +58,7 @@ export default {
     async findAllForMember() {
          apiClient.defaults.headers.common['Authorization'] = 'Bearer ' + sessionStorage.getItem('token') + '';
         try {
-            const response = await apiClient.get("/wp/v2/user/list");
+            const response = await apiClient.get("/user/list");
             return response.data;
         } catch (error) {
             return error.response.data
