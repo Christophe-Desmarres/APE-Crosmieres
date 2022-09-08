@@ -68,7 +68,7 @@
                 id="order"
               />
               <label class="button--radio__title" for="order"
-                >Commander mes saucisses</label
+                >Commander</label
               >
             </div>
           </div>
@@ -95,14 +95,14 @@
             </div>
           </div>
           <label v-if="order" class="field__label">
-            Combien de saucisses voulez vous
+            Combien voulez vous
           </label>
           <input
             v-if="order"
             type="text"
             v-model="nbsaucisse"
             class="field__input"
-            placeholder="Tu veux combien de saucisses Loïc ?"
+            placeholder="nb de repas ?"
           />
 
           <label class="field__label"> Commentaires </label>

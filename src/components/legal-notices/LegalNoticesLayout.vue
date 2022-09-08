@@ -11,7 +11,7 @@
       de Protection des Données Personnelles", conformément au Règlement Général
       sur la Protection des Données 2016/679 du 27 avril 2016 («RGPD»).
     </p>
-    <h3>Type d'informations recueillie</h3>
+    <h3>Type d'informations recueillies</h3>
     <p>
       Nous recevons, collectons et stockons toute information que vous saisissez
       sur notre site web ou que vous nous fournissez de toute autre manière. En

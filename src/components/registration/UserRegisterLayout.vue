@@ -23,11 +23,17 @@
         <label class="field__label">Votre identifiant de connexion</label>
         <input v-model="username" type="text" class="inputbox" placeholder="Votre pseudo" name="username" />
 
-        <label class="field__label">Mot de passe</label>
-        <input v-model="password" class="inputbox" type="password" placeholder="Mot de passe" />
-
+        <div class="password">
+          <input type="image" @click="switchVisibility" alt="" class="visibility" v-bind:src="visibility" />
+          <label class="field__label">Mot de passe</label>
+      </div>
+        <input v-model="password" class="inputbox" :type="passwordFieldType" placeholder="Mot de passe" />
+        
+        <div class="password">
+          <input type="image" @click="switchVisibilityConfirm" alt="" class="visibility" v-bind:src="visibilityConfirm" />
         <label class="field__label">Confirmer le mot de passe</label>
-        <input v-model="passwordconfirm" class="inputbox" type="password" placeholder="Mot de passe" required />
+      </div>
+        <input v-model="passwordconfirm" class="inputbox" :type="passwordFieldTypeConfirm" placeholder="Mot de passe" required />
 
         <p class="succesregistration" v-for="succesMsg in succesRegistration" v-bind:key="succesMsg">
           {{ succesMsg }}
@@ -47,6 +53,8 @@
 <script>
 import UserRegistrationService from "@/services/registration/UserRegistrationService";
 import illustrationPicture from "@/assets/images/jelly-character-got-a-new-idea.png";
+import closePicture from "@/assets/images/spot-closed.png";
+import openPicture from "@/assets/images/spot-open.png";
 
 export default {
   name: "UserRegistrationLayout",
@@ -54,6 +62,8 @@ export default {
   data() {
     return {
       picture: illustrationPicture,
+      visibility:closePicture,
+      visibilityConfirm:closePicture,
       //Array for the push messages
       errors: [],
       succesRegistration: [],
@@ -63,12 +73,23 @@ export default {
       email: null,
       phone: null,
       username: null,
+      passwordFieldType:"password",
+      passwordFieldTypeConfirm:"password",
       password: null,
       passwordconfirm: null,
     };
   },
 
   methods: {
+    switchVisibility(){
+      this.passwordFieldType = this.passwordFieldType === "password" ? "text" : "password";
+      this.visibility = this.visibility === closePicture ? openPicture : closePicture;
+    },
+    switchVisibilityConfirm(){
+      this.passwordFieldTypeConfirm = this.passwordFieldTypeConfirm === "password" ? "text" : "password";
+      this.visibilityConfirm = this.visibilityConfirm === closePicture ? openPicture : closePicture;
+    },
+
     async sendForm() {
       this.errors = [];
       // Validation of the form data
@@ -138,6 +159,22 @@ export default {
       }
     },
   },
+  computed: {
+    checkPwd() { 
+        if (this.password.length < 6) { 
+          return("too_short"); 
+        } else if (this.password.length > 50) { 
+          return("too_long"); 
+        }
+        //  else if (this.password.search(/\d/) == -1) { 
+        //   return("no_num"); 
+        // } else if (this.password.search(/[a-zA-Z]/) == -1) { 
+        //   return("no_letter"); 
+        // } else if (this.password.search(/[^a-zA-Z0-9\!\@\#\$\%\^\&*()_\+]/) != -1) { 
+        //   return("bad_char"); } 
+          return("ok"); 
+        } 
+  }
 };
 </script>
 
@@ -181,6 +218,18 @@ export default {
     -o-object-fit: cover;
     object-fit: cover;
     transform: translateY(-2%);
+  }
+  .password{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+      .visibility{
+        margin-right: 1rem;
+        height: 25px;
+      }
+   
   }
 
   .img__container {

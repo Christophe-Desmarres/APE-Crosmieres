@@ -1,6 +1,6 @@
 export default {
 
-    baseURL: `http://christophe-desmarres-server.eddi.cloud/wp-json/wp/v2`,
+    baseURL: `https://api.apecrosmieres.fr/wp-json`,
     headers: {
         Accept: 'application/json',
     },

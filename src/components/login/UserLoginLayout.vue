@@ -52,6 +52,7 @@ export default {
   },
 
   methods: {
+
     async login() {
       // Reset error table
       this.errors = [];
@@ -62,6 +63,8 @@ export default {
       if (!this.password) {
         this.errors.push("Oups il faut ton mot de passe");
       }
+
+
       // Send connection request
       if (this.errors.length === 0) {
         const response = await UserLoginService.login({
@@ -89,6 +92,7 @@ export default {
       }
     },
   },
+
 };
 </script>
 

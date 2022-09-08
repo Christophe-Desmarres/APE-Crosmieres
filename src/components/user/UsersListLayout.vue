@@ -12,13 +12,55 @@
       <button class="search-icon"><i class="fa fa-search"></i></button>
       <input
         type="text"
-        v-bind:placeholder="
-          this.$store.getters.getRole === 'administrator'
-            ? 'Rechercher par nom, prénom ou rôle'
-            : 'Rechercher par nom, prénom'
-        "
+        placeholder="Rechercher par nom, prénom"
         v-model="searchString"
       />
+      <div class="button--radio__group" v-if="this.$store.getters.getRole === 'administrator'">
+        <div class="button--title"></div>
+        <div class="button--radio__element">
+          <input
+            type="radio"
+            class="button--radio"
+            id="all"
+            v-model="picked"
+            value="all"
+          />
+          <label class="button--radio__title" for="all">Tous</label>
+        </div>
+        <div class="button--radio__element">
+          <!-- value 3 = id of taxonomie statement "réunion in backoffice wp" -->
+          <input
+            type="radio"
+            class="button--radio"
+            id="administrator"
+            value="administrator"
+            v-model="picked"
+          />
+          <label class="button--radio__title" for="administrator">Administrateur</label>
+        </div>
+        <div class="button--radio__element">
+          <!-- value 4 = id of taxonomie actuality "actualité in backoffice wp" -->
+          <input
+            type="radio"
+            class="button--radio"
+            id="apemember"
+            value="apemember"
+            v-model="picked"
+          />
+          <label class="button--radio__title" for="apemember">Membre APE</label>
+        </div>
+        <div class="button--radio__element">
+          <!-- value 4 = id of taxonomie actuality "actualité in backoffice wp" -->
+          <input
+            type="radio"
+            class="button--radio"
+            id="apeuser"
+            value="apeuser"
+            v-model="picked"
+          />
+          <label class="button--radio__title" for="apeuser">Utilisateur APE</label>
+        </div>
+      </div>
     </div>
 
     <div
@@ -30,6 +72,7 @@
     >
       <ul class="responsive-table">
         <li class="table-header">
+          <div class="col col-0">N°</div>
           <div class="col col-1">Nom</div>
           <div
             class="col col-2"
@@ -45,7 +88,10 @@
           ></div>
         </li>
 
-        <li class="table-row" v-for="user in usersNewList" v-bind:key="user.id">
+        <li class="table-row" v-for="(user, index) in usersNewList" v-bind:key="user.id">
+          <div class="col col-0"
+            data-label="N°"
+          >{{ index+1 }}</div>
           <div
             class="col col-1"
             data-label="Nom"
@@ -65,13 +111,11 @@
             data-label="Rôle"
             v-if="this.$store.getters.getRole === 'administrator'"
           >
-            <p class="role" v-if="user.roles[0] === 'administrator'">
-              Administrateur
+            <p class="role administrateur" v-if="user.roles[0] === 'administrator'">Administrateur
             </p>
-            <p class="role" v-if="user.roles[0] === 'apeuser'">
-              Utilisateur APE
+            <p class="role user" v-if="user.roles[0] === 'apeuser'">Utilisateur APE
             </p>
-            <p class="role" v-if="user.roles[0] === 'apemember'">Membre APE</p>
+            <p class="role member" v-if="user.roles[0] === 'apemember'">Membre APE</p>
           </div>
           <div class="col col-3" data-label="Téléphone">{{ user.phone }}</div>
           <div
@@ -90,19 +134,20 @@
           </div>
           <!-- Only the admin can modify the users list -->
           <div v-if="this.$store.getters.getRole === 'apemember'"></div>
-          <div v-if="this.$store.getters.getRole === 'administrator'">
+          <div v-if="this.$store.getters.getRole === 'administrator'"  
+          class="col col-5">
             <!-- Calls the chooseARole methods et make appears the selected form -->
             <img
               v-on:click="chooseARole(user)"
               v-bind:src="edit"
-              class="picture col-5"
+              class="picture"
               title="Modifier le rôle de ce compte"
             />
 
             <!-- Calls a popup to confirm the user's delete -->
             <img
               v-on:click="deleteUserConfirm(user)"
-              class="picture col-5"
+              class="picture"
               title="Supprimer ce compte"
               alt="trash"
               v-bind:src="trash"
@@ -196,19 +241,21 @@ export default {
 
   data() {
     return {
-      users: [],
-      usersMember: [],
-      trash: trash,
+      count : 0,
       edit: edit,
-      selectedRole: null,
       errors: [],
-      succesUpdate: [],
+      picked:"all",
+      searchString: "",
+      selectedRole: null,
+      selectUserId: null,
       showSelected: false,
       showDeleted: false,
+      succesUpdate: [],
+      trash: trash,
+      users: [],
+      usersMember: [],
       userToChange: null,
       userToDelete: null,
-      selectUserId: null,
-      searchString: "",
     };
   },
   async mounted() {
@@ -328,14 +375,14 @@ export default {
   computed: {
     // Method to find a user by firstname, lastname or role
     usersNewList() {
-      //Return an array that contains the rows where the callback returned true
 
+      //Return an array that contains the rows where the callback returned true
       return this.users.filter((user) => {
         // We take the name of the current user and we check if the searched term is contained in this name.
         // If yes, return true
         if (this.$store.getters.getRole === "administrator") {
           if (
-            user.last_name
+            (user.last_name
               .toLowerCase()
               .normalize("NFD")
               .replace(/[\u0300-\u036f]/g, "")
@@ -354,17 +401,21 @@ export default {
                   .normalize("NFD")
                   .replace(/[\u0300-\u036f]/g, "")
                   .toLowerCase()
-              ) ||
-            user.roles[0]
-              .toLowerCase()
-              .normalize("NFD")
-              .replace(/[\u0300-\u036f]/g, "")
-              .includes(
-                this.searchString
-                  .normalize("NFD")
-                  .replace(/[\u0300-\u036f]/g, "")
-                  .toLowerCase()
-              )
+              ) )&& 
+(this.picked !== "all" ? this.picked == user.roles[0] : true)
+
+            // this.picked == user.roles[0] 
+            // ||
+            // user.roles[0]
+            //   .toLowerCase()
+            //   .normalize("NFD")
+            //   .replace(/[\u0300-\u036f]/g, "")
+            //   .includes(
+            //     this.searchString
+            //       .normalize("NFD")
+            //       .replace(/[\u0300-\u036f]/g, "")
+            //       .toLowerCase()
+            //  )
           ) {
             return true;
           } else {
@@ -391,7 +442,8 @@ export default {
           }
         }
       });
-    },
+    
+  },
   },
 };
 </script>
@@ -419,6 +471,93 @@ section {
     align-items: center;
     justify-content: center;
     margin-bottom: 2rem;
+
+    
+  .button--radio__group {
+    width: 12rem;
+    margin: 0 1rem;
+
+    .button--radio__element {
+      display: block;
+      margin: 10px 0;
+      position: relative;
+
+      .button--radio__title {
+        padding: 5px 25px;
+        width: 80%;
+        display: block;
+        text-align: left;
+        color: $grey;
+        cursor: pointer;
+        position: relative;
+        z-index: 2;
+        border-radius: 2rem;
+
+        overflow: hidden;
+
+        &:before {
+          width: 10px;
+          height: 10px;
+          border-radius: 50%;
+          content: "";
+          background-color: $red;
+
+          position: absolute;
+          left: 50%;
+          top: 50%;
+
+          opacity: 0;
+          z-index: -1;
+        }
+
+        &:after {
+          width: 15px;
+          height: 15px;
+          content: "";
+          border: 1.9px solid $blue;
+          background-color: $white;
+          background-image: url("data:image/svg+xml,%3Csvg width='32' height='32' viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M5.414 11L4 12.414l5.414 5.414L20.828 6.414 19.414 5l-10 10z' fill='%23fff' fill-rule='nonzero'/%3E%3C/svg%3E ");
+          background-repeat: no-repeat;
+          background-position: -2px -5px;
+          border-radius: 50%;
+          z-index: 2;
+          position: absolute;
+          right: 1rem;
+          top: 50%;
+          transform: translateY(-50%);
+          cursor: pointer;
+          transition: all 200ms ease-in;
+        }
+      }
+
+      .button--radio:checked ~ label {
+        color: $white;
+
+        &:before {
+          transform: translate(-50%, -50%) scale3d(56, 56, 1);
+          opacity: 1;
+        }
+
+        &:after {
+          background-color: $blue;
+          border-color: $blue;
+        }
+      }
+
+      .button--radio {
+        width: 32px;
+        height: 32px;
+        order: 1;
+        z-index: 2;
+        position: absolute;
+        right: 30px;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        visibility: hidden;
+      }
+    }
+  }
   }
 
   input {
@@ -460,7 +599,7 @@ section {
         margin: 0.2rem auto;
         border-radius: 1rem;
         box-shadow: 0px 17px 34px -20px $blue-bg-header;
-        padding: 1rem;
+        padding: 0.3rem;
       }
       .table-header {
         background-color: #95a5a6;
@@ -471,25 +610,53 @@ section {
       .table-row {
         background-color: #ffffff;
         box-shadow: 0px 0px 9px 0px rgba(0, 0, 0, 0.1);
+
+        .role::before{
+          content: '.';
+          font-weight: bold;
+        }
+        .administrateur::before{
+          color: red;
+        }
+        .user::before{
+          color: green;
+        }
+        .member::before{
+          color:orange;
+        }
+      }
+      .table-row:nth-child(odd){
+        background-color: rgba(255, 255, 255, 0.459);
+      }
+      .col-0 {
+        flex-basis: 2%;
+        margin-right: 1rem;
       }
       .col-1 {
+        margin-left: 0.2rem;
         flex-basis: 20%;
       }
       .col-2 {
-        flex-basis: 20%;
+        margin-left: 0.2rem;
+        flex-basis: 15%;
       }
       .col-3 {
-        flex-basis: 20%;
+        margin-left: 0.2rem;
+        flex-basis: 15%;
       }
       .col-4 {
-        flex-basis: 20%;
+        margin-left: 0.2rem;
+        flex-basis: 30%;
       }
       .col-5 {
-        flex-basis: maw-content;
+        width: 100%;
+        flex-basis: 18%;
+        margin-right: 1rem;
       }
       .picture {
-        width: 50%;
+        height: 4rem;
         cursor: pointer;
+        float: right;
       }
 
       .picture:hover {
@@ -516,8 +683,8 @@ section {
             color: #6c7a89;
             padding-right: 10px;
             content: attr(data-label);
-            flex-basis: 50%;
-            text-align: right;
+            flex-basis: 25%;
+            text-align: left;
           }
         }
         .picture {
@@ -632,6 +799,9 @@ section {
 @media (max-width: 600px) {
   .userlist--ul__container {
     width: 100%;
+  }
+  .user--section__search {
+  flex-direction: column;
   }
 }
 </style>

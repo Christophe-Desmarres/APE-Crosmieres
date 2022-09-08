@@ -10,7 +10,7 @@ export default {
     // Get the list of all the events with their metadata
     async findAll() {
         try {
-            const response = await apiClient.get('/event?_embed');
+            const response = await apiClient.get('/wp/v2/event?_embed');
             return response.data;
         } catch (error) {
             return error.response.data
@@ -20,7 +20,7 @@ export default {
     async find(id) {
         apiClient.defaults.headers.common['Authorization'] = 'Bearer ' + sessionStorage.getItem('token') + '';
         try {
-            const response = await apiClient.get("/event/" + id + "?_embed");
+            const response = await apiClient.get("/wp/v2/event/" + id + "?_embed");
 
             return response.data;
         } catch (error) {
@@ -32,7 +32,7 @@ export default {
     async getMeta(id) {
 
         try {
-            const meta = await apiClient.get('/event/meta/' + id + '');
+            const meta = await apiClient.get('/wp/v2/event/meta/' + id + '');
             return meta.data
         } catch (error) {
             return error.response.data
@@ -52,12 +52,12 @@ export default {
         formData.append("post", postId);
 
         // send file to wordpress media and return image info
-        return apiClient.post("/media", formData);
+        return apiClient.post("/wp/v2/media", formData);
     },
 
     // to verify if files to upload exist
     getFiles() {
-        return apiClient.get("/media");
+        return apiClient.get("/wp/v2/media");
     },
 
 
@@ -67,7 +67,7 @@ export default {
         apiClient.defaults.headers.common['Content-Type'] = "application/json";
 
         try {
-            const response = await apiClient.post('/event', param);
+            const response = await apiClient.post('/wp/v2/event', param);
             return response
         } catch (errors) {
             return errors.response
@@ -82,7 +82,7 @@ export default {
         apiClient.defaults.headers.common['Content-Disposition'] = "attachment";
 
         try {
-            const response = await apiClient.post('/event/' + postId, {
+            const response = await apiClient.post('/wp/v2/event/' + postId, {
                 featured_media: mediaId
             });
             return response
@@ -95,7 +95,7 @@ export default {
     async readEvent(postId, param) {
         apiClient.defaults.headers.common['Content-Type'] = "application/json";
         try {
-            const response = await apiClient.post('/event/' + postId, param);
+            const response = await apiClient.post('/wp/v2/event/' + postId, param);
             return response
         } catch (errors) {
             return errors.response
@@ -104,7 +104,7 @@ export default {
     async findMeta(id) {
         apiClient.defaults.headers.common['Content-Type'] = "application/json";
         try {
-            const response = await apiClient.get("/event/meta/" + id + "");
+            const response = await apiClient.get("/wp/v2/event/meta/" + id + "");
 
             return response.data;
         } catch (error) {
@@ -117,7 +117,7 @@ export default {
             apiClient.defaults.headers.common['Content-Type'] = "application/json";
 
             apiClient.defaults.headers.common['Authorization'] = 'Bearer ' + sessionStorage.getItem('token') + '';
-            const response = await apiClient.post("/event", params);
+            const response = await apiClient.post("/wp/v2/event", params);
 
             return response.data;
         } catch (error) {
@@ -127,7 +127,7 @@ export default {
     async update(params) {
         try {
             apiClient.defaults.headers.common['Authorization'] = 'Bearer ' + sessionStorage.getItem('token') + '';
-            const response = await apiClient.post("/event/" + params.id + "", params);
+            const response = await apiClient.post("/wp/v2/event/" + params.id + "", params);
             return response.data;
         } catch (error) {
             return error.response.data
@@ -137,7 +137,7 @@ export default {
     async updateCustom(params) {
         try {
             apiClient.defaults.headers.common['Authorization'] = 'Bearer ' + sessionStorage.getItem('token') + '';
-            const response = await apiClient.post("/event/update/" + params.id + "", params);
+            const response = await apiClient.post("/wp/v2/event/update/" + params.id + "", params);
             return response.data;
         } catch (error) {
             return error.response.data
@@ -147,7 +147,7 @@ export default {
         try {
             apiClient.defaults.headers.common['Content-Type'] = "application/json";
             apiClient.defaults.headers.common['Authorization'] = 'Bearer ' + sessionStorage.getItem('token') + '';
-            const response = await apiClient.delete("/event/" + params.id + "");
+            const response = await apiClient.delete("/wp/v2/event/" + params.id + "");
             return response.data;
         } catch (error) {
             return error.response.data

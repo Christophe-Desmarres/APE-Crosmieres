@@ -7,7 +7,17 @@ import HomeView from '../views/HomeView.vue'
 // We load the store to have access to it outside the component context
 import store from '@/store/index'
 
-const routes = [{
+const routes = [
+
+  //Road for root
+  {
+    path: '',
+    name: 'root',
+    component: HomeView
+  },
+
+  //Road for accueil
+  {
     path: '/accueil',
     name: 'home',
     component: HomeView
@@ -26,8 +36,8 @@ const routes = [{
     name: 'eventCreate',
     component: () => import( /* webpackChunkName: "create-event" */ '../views/events/EventCreateView.vue')
   },
-   // route for update sale
-   {
+  // route for update sale
+  {
     path: '/modifier-un-evenement/:id',
     name: 'eventUpdate',
     component: () => import( /* webpackChunkName: "create-sale" */ '../views/events/EventUpdateView.vue')
@@ -39,8 +49,8 @@ const routes = [{
     name: 'saleCreate',
     component: () => import( /* webpackChunkName: "create-sale" */ '../views/sales/SaleCreateView.vue')
   },
-   // route for update sale
-   {
+  // route for update sale
+  {
     path: '/modifier-une-vente/:id',
     name: 'saleUpdate',
     component: () => import( /* webpackChunkName: "create-sale" */ '../views/sales/SaleUpdateView.vue')
@@ -71,14 +81,14 @@ const routes = [{
   {
     path: '/detail-evenement/:id',
     name: 'event',
-    component: () => import(/* webpackChunkName: "event" */ '../views/events/EventDetailView.vue')
+    component: () => import( /* webpackChunkName: "event" */ '../views/events/EventDetailView.vue')
   },
- 
+
   //Road for a sale
   {
     path: '/detail-vente/:id',
     name: 'sale',
-    component: () => import(/* webpackChunkName: "sale" */ '../views/sales/SaleDetailView.vue')
+    component: () => import( /* webpackChunkName: "sale" */ '../views/sales/SaleDetailView.vue')
   },
 
   //Road for user profil
@@ -109,18 +119,18 @@ const routes = [{
     component: () => import( /* webpackChunkName: "404" */ '../views/errors/Page404View.vue')
   },
 
-   //Road for back-office
-   {
+  //Road for back-office
+  {
     path: '/administration',
     name: 'back-office',
-     component: () => import(/* webpackChunkName: "login" */ '../views/back-office/BackOfficeView.vue')
+    component: () => import( /* webpackChunkName: "login" */ '../views/back-office/BackOfficeView.vue')
   },
 
   //Road for legals mentions
   {
     path: '/mentions-legales',
     name: 'legal-notices',
-     component: () => import(/* webpackChunkName: "legal-notices" */ '../views/legal-notices/LegalNoticesView.vue')
+    component: () => import( /* webpackChunkName: "legal-notices" */ '../views/legal-notices/LegalNoticesView.vue')
   },
 ]
 
@@ -138,101 +148,130 @@ router.beforeEach((to) => {
 
   // Road page for visitor 
   switch (to.name) {
+    case 'root':
+      return true;
+
     case 'home':
       return true;
-    
+
     case 'login':
       return true;
-    
+
     case 'registration':
       return true;
-    
+
     case '404':
       return true;
-    
-      
+
+
     case 'legal-notices':
       return true;
-    
-    // Road page for Registered 
+
+      // Road page for Registered 
     case 'memberList':
       if (store.getters.getToken) {
         return true
       }
-      return { name: "registration" };
+      return {
+        name: "registration"
+      };
 
     case 'eventsList':
       if (store.getters.getToken) {
         return true
       }
-      return { name: "registration" };
-    
+      return {
+        name: "registration"
+      };
+
     case 'salesList':
       if (store.getters.getToken) {
         return true
       }
-      return { name: "registration" };
-    
+      return {
+        name: "registration"
+      };
+
     case 'event':
       if (store.getters.getToken) {
         return true
       }
-      return { name: "registration" };
-    
+      return {
+        name: "registration"
+      };
+
     case 'sale':
       if (store.getters.getToken) {
         return true
       }
-      return { name: "registration" };
-    
+      return {
+        name: "registration"
+      };
+
     case 'userprofil':
       if (store.getters.getToken) {
         return true
       }
-      return { name: "registration" };
-    
-    // Road for members 
+      return {
+        name: "registration"
+      };
+
+      // Road for members 
     case 'back-office':
       // Only with if connected and the role 'admin' or APE members 
-      if(store.getters.getToken && store.getters.getRole === 'administrator' || store.getters.getRole === 'apemember') {
+      if (store.getters.getToken && store.getters.getRole === 'administrator' || store.getters.getRole === 'apemember') {
         return true
       }
-      return { name: "login" };
-    
-       case 'saleUpdate':
-    if(store.getters.getToken && store.getters.getRole === 'administrator' || store.getters.getRole === 'apemember') {
-        return true
-      }
-      return { name: "login" };
-    
-     case 'saleCreate':
-    if(store.getters.getToken && store.getters.getRole === 'administrator' || store.getters.getRole === 'apemember') {
-        return true
-      }
-      return { name: "login" };
-    
-    case 'eventCreate':
-    if(store.getters.getToken && store.getters.getRole === 'administrator' || store.getters.getRole === 'apemember') {
-        return true
-      }
-      return { name: "login" };
-    
-    case 'eventUpdate':
-    if(store.getters.getToken && store.getters.getRole === 'administrator' || store.getters.getRole === 'apemember') {
-        return true
-      }
-      return { name: "login" };
+      return {
+        name: "login"
+      };
 
-      case 'users':
-    if(store.getters.getToken && store.getters.getRole === 'administrator' || store.getters.getRole === 'apemember') {
+    case 'saleUpdate':
+      if (store.getters.getToken && store.getters.getRole === 'administrator' || store.getters.getRole === 'apemember') {
         return true
       }
-      return { name: "login" };
+      return {
+        name: "login"
+      };
+
+    case 'saleCreate':
+      if (store.getters.getToken && store.getters.getRole === 'administrator' || store.getters.getRole === 'apemember') {
+        return true
+      }
+      return {
+        name: "login"
+      };
+
+    case 'eventCreate':
+      if (store.getters.getToken && store.getters.getRole === 'administrator' || store.getters.getRole === 'apemember') {
+        return true
+      }
+      return {
+        name: "login"
+      };
+
+    case 'eventUpdate':
+      if (store.getters.getToken && store.getters.getRole === 'administrator' || store.getters.getRole === 'apemember') {
+        return true
+      }
+      return {
+        name: "login"
+      };
+
+    case 'users':
+      if (store.getters.getToken && store.getters.getRole === 'administrator' || store.getters.getRole === 'apemember') {
+        return true
+      }
+      return {
+        name: "login"
+      };
   }
 
 
   // if the road doesn't exit we return a 404
- return { name: "404" };
+  return {
+    name: "404"
+  };
 })
 
 export default router;
