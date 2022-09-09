@@ -19,8 +19,11 @@
           <input v-model="userName" class="inputbox" type="text" placeholder="Votre pseudo ou e-mail" />
         </div>
         <div class="field field--error">
+          <div class="password">
+          <input type="image" @click="switchVisibility" alt="" class="visibility" v-bind:src="visibility" />
           <label class="field__label">Mot de passe</label>
-          <input v-model="password" class="inputbox" type="password" placeholder="Votre mot de passe" />
+      </div>
+      <input v-model="password" class="inputbox" :type="passwordFieldType" placeholder="Votre mot de passe" />
         </div>
         <button v-on:click="login" class="subscribe">Connexion</button>
       </div>
@@ -31,6 +34,8 @@
 <script>
 import illustrationPicture from "@/assets/images/jelly-character-got-a-new-idea.png";
 import UserLoginService from "@/services/login/UserLoginService";
+import closePicture from "@/assets/images/spot-closed.png";
+import openPicture from "@/assets/images/spot-open.png";
 
 export default {
   // Nom de notre composant
@@ -40,10 +45,11 @@ export default {
     return {
       //Picture for the form
       picture: illustrationPicture,
+      visibility:closePicture,
       //Information of the form
       userName: null,
+      passwordFieldType:"password",
       password: null,
-
       errors: [],
       succesLogin: [],
       meta: null,
@@ -52,6 +58,11 @@ export default {
   },
 
   methods: {
+
+    switchVisibility(){
+      this.passwordFieldType = this.passwordFieldType === "password" ? "text" : "password";
+      this.visibility = this.visibility === closePicture ? openPicture : closePicture;
+    },
 
     async login() {
       // Reset error table
@@ -151,6 +162,19 @@ export default {
       place-items: center;
       padding: 0 2em;
     }
+
+    .password{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+      .visibility{
+        margin-right: 1rem;
+        height: 25px;
+      }
+   
+  }
 
     .inputbox {
       padding: 0.5em 0 0.5em 1.5em;

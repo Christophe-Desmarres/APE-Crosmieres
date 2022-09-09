@@ -25,10 +25,18 @@
 
         <div class="password">
           <input type="image" @click="switchVisibility" alt="" class="visibility" v-bind:src="visibility" />
-          <label class="field__label">Mot de passe</label>
+          <label class="field__label">Mot de passe 
+            <abbr title="Doit contenir au minimum : 
+            - 8 caractères 
+            - 1 minuscule
+            - 1 majuscule
+            - 1 chiffre"
+              >&#x2139;</abbr></label>
       </div>
         <input v-model="password" class="inputbox" :type="passwordFieldType" placeholder="Mot de passe" />
         
+        <p class="infoCheckPwd" v-if="checkPwd">{{checkPwd}}</p>
+
         <div class="password">
           <input type="image" @click="switchVisibilityConfirm" alt="" class="visibility" v-bind:src="visibilityConfirm" />
         <label class="field__label">Confirmer le mot de passe</label>
@@ -161,19 +169,23 @@ export default {
   },
   computed: {
     checkPwd() { 
-        if (this.password.length < 6) { 
-          return("too_short"); 
+      if(this.password !== null){
+        if (this.password.length < 8) { 
+          return("minimum 8 caractères"); 
         } else if (this.password.length > 50) { 
-          return("too_long"); 
+          return("le mot de passe est trop long"); 
         }
-        //  else if (this.password.search(/\d/) == -1) { 
-        //   return("no_num"); 
-        // } else if (this.password.search(/[a-zA-Z]/) == -1) { 
-        //   return("no_letter"); 
-        // } else if (this.password.search(/[^a-zA-Z0-9\!\@\#\$\%\^\&*()_\+]/) != -1) { 
-        //   return("bad_char"); } 
-          return("ok"); 
-        } 
+         else if (this.password.search(/\d/) == -1) { 
+            return("minimum 1 chiffre"); 
+          } else if (this.password.search(/[a-z]/) == -1) { 
+               return("minimum 1 lettre miniscule"); 
+             } else if (this.password.search(/[A-Z]/) == -1) { 
+               return("minimum 1 lettre majuscule"); 
+             } //else if (this.password.search(/[^a-zA-Z0-9\!\@\#\$\%\^\&*()_\+]/) != -1) { 
+                 //return("bad_char"); } 
+            } 
+            return false;
+          }
   }
 };
 </script>
@@ -219,6 +231,7 @@ export default {
     object-fit: cover;
     transform: translateY(-2%);
   }
+
   .password{
     width: 100%;
     display: flex;
@@ -229,7 +242,20 @@ export default {
         margin-right: 1rem;
         height: 25px;
       }
+      abbr{
+        font-size: 1rem;
+        padding: 0px 0.4rem;
+        vertical-align: top;
+        border: 1px solid black;
+        border-radius: 50%;
+      }
    
+  }
+
+  .infoCheckPwd{
+    margin-bottom: 1rem;
+    color: red;
+    font-weight: bold;
   }
 
   .img__container {
