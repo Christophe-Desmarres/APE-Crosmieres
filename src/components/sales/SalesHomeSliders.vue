@@ -1,16 +1,13 @@
 <template>
 
     <section class="sale--sliders__all">
-
         <div class="sale--sliders__titre">
             <h2>Ventes</h2>
         </div>
-
         <div class="sale--sliders">
                 <div v-bind:class="'sale--sliders__texte'">                
                 <h2 class="sale--sliders__h2" >{{this.title}}</h2>
                 <p v-html="this.content"></p>
-
             </div>
         </div>
 

@@ -1,5 +1,4 @@
 <template>
-   <!--Events list-->
     <section class="event--section">
         <div class="event--section__title">
             <h1 class="title--event">   

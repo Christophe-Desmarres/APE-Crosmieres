@@ -29,26 +29,26 @@ export default {
     async find(id) {
         apiClient.defaults.headers.common['Authorization'] = 'Bearer ' + sessionStorage.getItem('token') + '';
         try {
-            const response = await apiClient.get("/wp/v2/users/" + id + "?context=edit" );
+            const response = await apiClient.get("/wp/v2/users/" + id + "?context=edit");
             return response.data;
         } catch (error) {
             return error.response.data
         }
     },
-        
+
     async getMeta(id) {
-         apiClient.defaults.headers.common['Authorization'] = 'Bearer ' + sessionStorage.getItem('token') + '';
+        apiClient.defaults.headers.common['Authorization'] = 'Bearer ' + sessionStorage.getItem('token') + '';
         try {
-            const meta = await apiClient.get('/wp/v2/users/meta/'+ id +'');
+            const meta = await apiClient.get('/wp/v2/users/meta/' + id + '');
             return meta.data
-        } catch(error) {
+        } catch (error) {
             return error.response.data
-        } 
+        }
     },
     async findAll() {
         apiClient.defaults.headers.common['Authorization'] = 'Bearer ' + sessionStorage.getItem('token') + '';
         try {
-            const response = await apiClient.get("/wp/v2/users/?context=edit");
+            const response = await apiClient.get("/wp/v2/users/?context=edit&per_page=99");
             return response.data;
         } catch (error) {
             return error.response.data
@@ -56,7 +56,7 @@ export default {
     },
 
     async findAllForMember() {
-         apiClient.defaults.headers.common['Authorization'] = 'Bearer ' + sessionStorage.getItem('token') + '';
+        apiClient.defaults.headers.common['Authorization'] = 'Bearer ' + sessionStorage.getItem('token') + '';
         try {
             const response = await apiClient.get("/wp/v2/user/list");
             return response.data;
@@ -64,4 +64,4 @@ export default {
             return error.response.data
         }
     },
-    }
+}

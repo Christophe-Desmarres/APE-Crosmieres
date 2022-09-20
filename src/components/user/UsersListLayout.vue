@@ -5,153 +5,90 @@
     <div class="user--section__search">
       <img class="sale--card__img" />
       <!-- Load icon library from font awesome -->
-      <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-      />
+      <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
       <button class="search-icon"><i class="fa fa-search"></i></button>
-      <input
-        type="text"
-        placeholder="Rechercher par nom, prénom"
-        v-model="searchString"
-      />
+      <input type="text" placeholder="Rechercher par nom, prénom" v-model="searchString" />
       <div class="button--radio__group" v-if="this.$store.getters.getRole === 'administrator'">
         <div class="button--title"></div>
         <div class="button--radio__element">
-          <input
-            type="radio"
-            class="button--radio"
-            id="all"
-            v-model="picked"
-            value="all"
-          />
+          <input type="radio" class="button--radio" id="all" v-model="picked" value="all" />
           <label class="button--radio__title" for="all">Tous</label>
         </div>
         <div class="button--radio__element">
           <!-- value 3 = id of taxonomie statement "réunion in backoffice wp" -->
-          <input
-            type="radio"
-            class="button--radio"
-            id="administrator"
-            value="administrator"
-            v-model="picked"
-          />
+          <input type="radio" class="button--radio" id="administrator" value="administrator" v-model="picked" />
           <label class="button--radio__title" for="administrator">Administrateur</label>
         </div>
         <div class="button--radio__element">
           <!-- value 4 = id of taxonomie actuality "actualité in backoffice wp" -->
-          <input
-            type="radio"
-            class="button--radio"
-            id="apemember"
-            value="apemember"
-            v-model="picked"
-          />
+          <input type="radio" class="button--radio" id="apemember" value="apemember" v-model="picked" />
           <label class="button--radio__title" for="apemember">Membre APE</label>
         </div>
         <div class="button--radio__element">
           <!-- value 4 = id of taxonomie actuality "actualité in backoffice wp" -->
-          <input
-            type="radio"
-            class="button--radio"
-            id="apeuser"
-            value="apeuser"
-            v-model="picked"
-          />
+          <input type="radio" class="button--radio" id="apeuser" value="apeuser" v-model="picked" />
           <label class="button--radio__title" for="apeuser">Utilisateur APE</label>
         </div>
       </div>
     </div>
 
-    <div
-      class="container"
-      v-if="
-        this.$store.getters.getRole === 'administrator' ||
-        this.$store.getters.getRole === 'apemember'
-      "
-    >
+    <div class="container" v-if="
+      this.$store.getters.getRole === 'administrator' ||
+      this.$store.getters.getRole === 'apemember'
+    ">
       <ul class="responsive-table">
         <li class="table-header">
           <div class="col col-0">N°</div>
           <div class="col col-1">Nom</div>
-          <div
-            class="col col-2"
-            v-if="this.$store.getters.getRole === 'administrator'"
-          >
+          <div class="col col-2" v-if="this.$store.getters.getRole === 'administrator'">
             Rôle
           </div>
           <div class="col col-3">Téléphone</div>
           <div class="col col-4">Email</div>
-          <div
-            class="col col-5"
-            v-if="this.$store.getters.getRole === 'administrator'"
-          ></div>
+          <div class="col col-5" v-if="this.$store.getters.getRole === 'administrator'"></div>
         </li>
 
         <li class="table-row" v-for="(user, index) in usersNewList" v-bind:key="user.id">
-          <div class="col col-0"
-            data-label="N°"
-          >{{ index+1 }}</div>
-          <div
-            class="col col-1"
-            data-label="Nom"
-            v-if="this.$store.getters.getRole === 'administrator'"
-          >
+          <div class="col col-0" data-label="N°">{{ index+1 }}</div>
+          <div class="col col-1" data-label="Nom" v-if="this.$store.getters.getRole === 'administrator'">
             {{ user.first_name }} {{ user.last_name }}
           </div>
-          <div
-            class="col col-1"
-            data-label="Nom"
-            v-if="this.$store.getters.getRole === 'apemember'"
-          >
+          <div class="col col-1" data-label="Nom" v-if="this.$store.getters.getRole === 'apemember'">
             {{ user.display_name }}
           </div>
-          <div
-            class="col col-2"
-            data-label="Rôle"
-            v-if="this.$store.getters.getRole === 'administrator'"
-          >
+          <div class="col col-2" data-label="Rôle" v-if="this.$store.getters.getRole === 'administrator'">
             <p class="role administrateur" v-if="user.roles[0] === 'administrator'">Administrateur
             </p>
             <p class="role user" v-if="user.roles[0] === 'apeuser'">Utilisateur APE
             </p>
             <p class="role member" v-if="user.roles[0] === 'apemember'">Membre APE</p>
           </div>
-          <div class="col col-3" data-label="Téléphone">{{ user.phone }}</div>
-          <div
-            class="col col-4"
-            data-label="Email"
-            v-if="this.$store.getters.getRole === 'administrator'"
-          >
-            {{ user.email }}
+          <div class="col col-3" data-label="Téléphone">
+            <a :href="'tel:'+ user.phone ">
+              {{ user.phone }}
+            </a>
           </div>
-          <div
-            class="col col-4"
-            data-label="Email"
-            v-if="this.$store.getters.getRole === 'apemember'"
-          >
-            {{ user.user_email }}
+          <div class="col col-4" data-label="Email" v-if="this.$store.getters.getRole === 'administrator'">
+            <a :href="'mailto:'+ user.email ">
+              {{ user.email }}
+            </a>
+          </div>
+          <div class="col col-4" data-label="Email" v-if="this.$store.getters.getRole === 'apemember'">
+            <a :href="'mailto:' + user.user_email ">
+              {{ user.user_email }}
+            </a>
           </div>
           <!-- Only the admin can modify the users list -->
           <div v-if="this.$store.getters.getRole === 'apemember'"></div>
-          <div v-if="this.$store.getters.getRole === 'administrator'"  
-          class="col col-5">
+          <div v-if="this.$store.getters.getRole === 'administrator'" class="col col-5">
             <!-- Calls the chooseARole methods et make appears the selected form -->
-            <img
-              v-on:click="chooseARole(user)"
-              v-bind:src="edit"
-              class="picture"
-              title="Modifier le rôle de ce compte"
-            />
+            <img v-on:click="chooseARole(user)" v-bind:src="edit" class="picture"
+              title="Modifier le rôle de ce compte" />
 
             <!-- Calls a popup to confirm the user's delete -->
-            <img
-              v-on:click="deleteUserConfirm(user)"
-              class="picture"
-              title="Supprimer ce compte"
-              alt="trash"
-              v-bind:src="trash"
-            />
+            <img v-on:click="deleteUserConfirm(user)" class="picture" title="Supprimer ce compte" alt="trash"
+              v-bind:src="trash" />
           </div>
         </li>
       </ul>
@@ -161,37 +98,22 @@
     <div class="select" v-if="showSelected">
       <div class="select--wrapper">
         <div class="select--container">
-          <label for="role-select"
-            >Le rôle de {{ userToChange.username }} est
-            <span class="role" v-if="userToChange.roles[0] === 'administrator'"
-              >Administrateur</span
-            >
-            <span class="role" v-if="userToChange.roles[0] === 'apeuser'"
-              >Utilisateur APE</span
-            >
-            <span class="role" v-if="userToChange.roles[0] === 'apemember'"
-              >Membre APE</span
-            >.
-            <p>Voulez vous le modifier ?</p></label
-          >
+          <label for="role-select">Le rôle de {{ userToChange.username }} est
+            <span class="role" v-if="userToChange.roles[0] === 'administrator'">Administrateur</span>
+            <span class="role" v-if="userToChange.roles[0] === 'apeuser'">Utilisateur APE</span>
+            <span class="role" v-if="userToChange.roles[0] === 'apemember'">Membre APE</span>.
+            <p>Voulez vous le modifier ?</p>
+          </label>
           <select name="role" id="role-select" v-model="selectedRole">
             <option value="apeuser">Utilisateur APE</option>
             <option value="apemember">Membre APE</option>
             <option value="administrator">Administrateur</option>
           </select>
           <div>
-            <input
-              class="selectButton selectButtonConfirm"
-              type="submit"
-              v-on:click="updateRole()"
-              value="Modifier le rôle"
-            />
-            <input
-              class="selectButton selectButtonAbort"
-              type="submit"
-              v-on:click="showSelected = false"
-              value="Annuler"
-            />
+            <input class="selectButton selectButtonConfirm" type="submit" v-on:click="updateRole()"
+              value="Modifier le rôle" />
+            <input class="selectButton selectButtonAbort" type="submit" v-on:click="showSelected = false"
+              value="Annuler" />
           </div>
         </div>
       </div>
@@ -200,31 +122,18 @@
     <div class="select" v-if="showDeleted">
       <div class="select--wrapper">
         <div class="select--container">
-          <label for="role-select"
-            >Etes vous sûr de vouloir supprimer le compte de
-            {{ userToDelete.username }} ?</label
-          >
-          <input
-            class="selectButton selectButtonConfirm"
-            v-on:click="deleteById(userToDelete)"
-            value="Supprimer le compte"
-          />
-          <input
-            class="selectButton selectButtonAbort"
-            v-on:click="showDeleted = false"
-            value="Annuler"
-          />
+          <label for="role-select">Etes vous sûr de vouloir supprimer le compte de
+            {{ userToDelete.username }} ?</label>
+          <input class="selectButton selectButtonConfirm" v-on:click="deleteById(userToDelete)"
+            value="Supprimer le compte" />
+          <input class="selectButton selectButtonAbort" v-on:click="showDeleted = false" value="Annuler" />
         </div>
       </div>
     </div>
 
     <!-- display a succes message if the role is correctly modified -->
 
-    <p
-      class="successUpdate"
-      v-for="succesMsg in succesUpdate"
-      v-bind:key="succesMsg"
-    >
+    <p class="successUpdate" v-for="succesMsg in succesUpdate" v-bind:key="succesMsg">
       {{ succesMsg }}
     </p>
   </section>
@@ -241,10 +150,10 @@ export default {
 
   data() {
     return {
-      count : 0,
+      count: 0,
       edit: edit,
       errors: [],
-      picked:"all",
+      picked: "all",
       searchString: "",
       selectedRole: null,
       selectUserId: null,
@@ -392,17 +301,17 @@ export default {
                   .replace(/[\u0300-\u036f]/g, "")
                   .toLowerCase()
               ) ||
-            user.first_name
-              .toLowerCase()
-              .normalize("NFD")
-              .replace(/[\u0300-\u036f]/g, "")
-              .includes(
-                this.searchString
-                  .normalize("NFD")
-                  .replace(/[\u0300-\u036f]/g, "")
-                  .toLowerCase()
-              ) )&& 
-(this.picked !== "all" ? this.picked == user.roles[0] : true)
+              user.first_name
+                .toLowerCase()
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "")
+                .includes(
+                  this.searchString
+                    .normalize("NFD")
+                    .replace(/[\u0300-\u036f]/g, "")
+                    .toLowerCase()
+                )) &&
+            (this.picked !== "all" ? this.picked == user.roles[0] : true)
 
             // this.picked == user.roles[0] 
             // ||
@@ -442,8 +351,8 @@ export default {
           }
         }
       });
-    
-  },
+
+    },
   },
 };
 </script>
@@ -472,92 +381,92 @@ section {
     justify-content: center;
     margin-bottom: 2rem;
 
-    
-  .button--radio__group {
-    width: 12rem;
-    margin: 0 1rem;
 
-    .button--radio__element {
-      display: block;
-      margin: 10px 0;
-      position: relative;
+    .button--radio__group {
+      width: 12rem;
+      margin: 0 1rem;
 
-      .button--radio__title {
-        padding: 5px 25px;
-        width: 80%;
+      .button--radio__element {
         display: block;
-        text-align: left;
-        color: $grey;
-        cursor: pointer;
+        margin: 10px 0;
         position: relative;
-        z-index: 2;
-        border-radius: 2rem;
 
-        overflow: hidden;
+        .button--radio__title {
+          padding: 5px 25px;
+          width: 80%;
+          display: block;
+          text-align: left;
+          color: $grey;
+          cursor: pointer;
+          position: relative;
+          z-index: 2;
+          border-radius: 2rem;
 
-        &:before {
-          width: 10px;
-          height: 10px;
-          border-radius: 50%;
-          content: "";
-          background-color: $red;
+          overflow: hidden;
 
-          position: absolute;
-          left: 50%;
-          top: 50%;
+          &:before {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            content: "";
+            background-color: $red;
 
-          opacity: 0;
-          z-index: -1;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+
+            opacity: 0;
+            z-index: -1;
+          }
+
+          &:after {
+            width: 15px;
+            height: 15px;
+            content: "";
+            border: 1.9px solid $blue;
+            background-color: $white;
+            background-image: url("data:image/svg+xml,%3Csvg width='32' height='32' viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M5.414 11L4 12.414l5.414 5.414L20.828 6.414 19.414 5l-10 10z' fill='%23fff' fill-rule='nonzero'/%3E%3C/svg%3E ");
+            background-repeat: no-repeat;
+            background-position: -2px -5px;
+            border-radius: 50%;
+            z-index: 2;
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            transition: all 200ms ease-in;
+          }
         }
 
-        &:after {
-          width: 15px;
-          height: 15px;
-          content: "";
-          border: 1.9px solid $blue;
-          background-color: $white;
-          background-image: url("data:image/svg+xml,%3Csvg width='32' height='32' viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M5.414 11L4 12.414l5.414 5.414L20.828 6.414 19.414 5l-10 10z' fill='%23fff' fill-rule='nonzero'/%3E%3C/svg%3E ");
-          background-repeat: no-repeat;
-          background-position: -2px -5px;
-          border-radius: 50%;
+        .button--radio:checked~label {
+          color: $white;
+
+          &:before {
+            transform: translate(-50%, -50%) scale3d(56, 56, 1);
+            opacity: 1;
+          }
+
+          &:after {
+            background-color: $blue;
+            border-color: $blue;
+          }
+        }
+
+        .button--radio {
+          width: 32px;
+          height: 32px;
+          order: 1;
           z-index: 2;
           position: absolute;
-          right: 1rem;
+          right: 30px;
           top: 50%;
           transform: translateY(-50%);
           cursor: pointer;
-          transition: all 200ms ease-in;
+          visibility: hidden;
         }
-      }
-
-      .button--radio:checked ~ label {
-        color: $white;
-
-        &:before {
-          transform: translate(-50%, -50%) scale3d(56, 56, 1);
-          opacity: 1;
-        }
-
-        &:after {
-          background-color: $blue;
-          border-color: $blue;
-        }
-      }
-
-      .button--radio {
-        width: 32px;
-        height: 32px;
-        order: 1;
-        z-index: 2;
-        position: absolute;
-        right: 30px;
-        top: 50%;
-        transform: translateY(-50%);
-        cursor: pointer;
-        visibility: hidden;
       }
     }
-  }
   }
 
   input {
@@ -580,6 +489,7 @@ section {
     margin-right: 5px;
     margin-left: 2rem;
   }
+
   .container {
     width: 100%;
     margin-left: auto;
@@ -601,58 +511,71 @@ section {
         box-shadow: 0px 17px 34px -20px $blue-bg-header;
         padding: 0.3rem;
       }
+
       .table-header {
         background-color: #95a5a6;
         font-size: 1rem;
         text-transform: uppercase;
         letter-spacing: 0.03em;
       }
+
       .table-row {
         background-color: #ffffff;
         box-shadow: 0px 0px 9px 0px rgba(0, 0, 0, 0.1);
 
-        .role::before{
+        .role::before {
           content: '.';
           font-weight: bold;
         }
-        .administrateur::before{
+
+        .administrateur::before {
           color: red;
         }
-        .user::before{
+
+        .user::before {
           color: green;
         }
-        .member::before{
-          color:orange;
+
+        .member::before {
+          color: orange;
         }
       }
-      .table-row:nth-child(odd){
+
+      .table-row:nth-child(odd) {
         background-color: rgba(255, 255, 255, 0.459);
       }
+
       .col-0 {
         flex-basis: 2%;
         margin-right: 1rem;
       }
+
       .col-1 {
         margin-left: 0.2rem;
         flex-basis: 20%;
       }
+
       .col-2 {
         margin-left: 0.2rem;
         flex-basis: 15%;
       }
+
       .col-3 {
         margin-left: 0.2rem;
         flex-basis: 15%;
       }
+
       .col-4 {
         margin-left: 0.2rem;
         flex-basis: 30%;
       }
+
       .col-5 {
         width: 100%;
         flex-basis: 18%;
         margin-right: 1rem;
       }
+
       .picture {
         height: 4rem;
         cursor: pointer;
@@ -668,17 +591,21 @@ section {
         .table-header {
           display: none;
         }
-        .table-row {
-        }
+
+        .table-row {}
+
         li {
           display: block;
         }
+
         .col {
           flex-basis: 100%;
         }
+
         .col {
           display: flex;
           padding: 10px 0;
+
           &:before {
             color: #6c7a89;
             padding-right: 10px;
@@ -687,6 +614,7 @@ section {
             text-align: left;
           }
         }
+
         .picture {
           width: auto;
           margin: auto 0;
@@ -796,12 +724,14 @@ section {
     }
   }
 }
+
 @media (max-width: 600px) {
   .userlist--ul__container {
     width: 100%;
   }
+
   .user--section__search {
-  flex-direction: column;
+    flex-direction: column;
   }
 }
 </style>

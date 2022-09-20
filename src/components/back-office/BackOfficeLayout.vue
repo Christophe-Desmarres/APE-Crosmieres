@@ -4,7 +4,7 @@
       <h1 class="back-office--container__title">
         Espace Administration de <span>{{ userName }}</span>
       </h1>
-      <!-- //MENU NAV -->
+
       <div class="back-office--menu__nav">
         <div class="home" v-on:click="showMenu">
           <router-link v-bind:to="{ name: 'home' }" class="header--nav__home">

@@ -22,8 +22,6 @@
   background-color: $blue-light-bg;
   color: $white;
   min-width: fit-content;
-  
-
 }
 
 .overflow--hidden {

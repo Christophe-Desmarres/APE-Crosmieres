@@ -24,7 +24,8 @@
           <a class="header--disconnect" href="" v-if="this.$store.getters.getToken" v-on:click="disconnect">Déconnexion
           </a>
         </div>
-        <!-- /*<--------------------Button menu BURGER HIDDEN IN DESKTOP---------------------------->
+
+
         <div class="header--burger__container">
           <div id="menu_button">
             <input type="checkbox" id="menu_checkbox" v-on:click="showMenu" :checked="menuBurger">
@@ -34,7 +35,8 @@
             </label>
           </div>
         </div>
-        <!--       END BURGER         -->
+
+
       </div>
 
       <nav v-bind:class="{ backoffice: backOff }">
@@ -69,7 +71,6 @@
       </nav>
     </header>
 
-    <!-- /*<--------------------MENU BURGER HIDDEN IN DESKTOP---------------------------->
     <div class="header--burger__menu" v-if="menuBurger">
       <ul>
         <li class="header--nav__home burger--ul" @click="hiddenMenu">

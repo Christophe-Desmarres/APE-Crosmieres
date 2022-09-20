@@ -3,7 +3,6 @@
         <h1>Liste des ventes de l'école</h1>
         <div class="sale--section__search">
             <img class="sale--card__img" v-bind:src="salePicture">
-            <!-- Load icon library from font awesome -->
             <link rel="stylesheet"
                 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
             <button class="search-icon"> <i class="fa fa-search"></i></button>
