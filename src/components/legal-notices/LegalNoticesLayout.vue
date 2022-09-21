@@ -15,10 +15,13 @@
     <p>
       Nous recevons, collectons et stockons toute information que vous saisissez
       sur notre site web ou que vous nous fournissez de toute autre manière. En
-      outre, nous recueillons l'adresse de protocole Internet (IP) utilisée pour
-      connecter votre ordinateur à l'Internet; le login; l'adresse e-mail; le
-      mot de passe; les informations sur l'ordinateur et la connexion. Nous
-      pouvons utiliser des outils logiciels pour mesurer et collecter des
+      outre, nous recueillons :<br />
+      - l'adresse de protocole Internet (IP) utilisée pour connecter votre ordinateur à l'Internet; <br />
+      - le login; <br />
+      - l'adresse e-mail; <br />
+      - le mot de passe; <br />
+      - les informations sur l'ordinateur et la connexion. <br />
+      Nous pouvons utiliser des outils logiciels pour mesurer et collecter des
       informations de session, y compris les temps de réponse des pages, la
       durée des visites sur certaines pages, les informations sur l'interaction
       entre les pages et les méthodes utilisées pour naviguer hors de la
@@ -44,11 +47,12 @@
       d'élèves Se conformer aux lois et règlements applicables.
     </p>
     <h3>Hébergement</h3>
-    <p>
-      Le Site est hébergé par la société OVH, situé 2 rue Kellermann - BP 80157
-      - 59053 Roubaix Cedex 1, https://www.ovhcloud.com/fr/, E-Mail:
-      support@ovh.com, téléphone : +33 (0)8 203 203 63
-    </p>
+    <pre>
+      Le Site est hébergé par
+      HOSTINGER, UAB
+      Rue Jonavos 60C, Kaunas 44192 Lituanie
+      Téléphone : +37064503378
+      E-mail : domains@hostinger.com</pre>
     <h3>Moyens de communication</h3>
     <p>
       Nous pouvons vous contacter pour vous informer sur votre compte, pour
@@ -72,7 +76,8 @@
       fréquemment. Les modifications et les clarifications prendront effet dès
       leur publication sur le site web.
     </p>
-
+    <br />
+    <hr>
     <h2 id="legal">Mentions légales</h2>
     <p>
       Conformément aux dispositions de la loi n° 2004-575 du 21 juin 2004 pour
@@ -99,7 +104,8 @@
         Crosmières
       </li>
     </ul>
-
+    <br />
+    <hr>
     <h2 id="condition">Conditions générales d'utilisation</h2>
     <p>
       La création de liens hypertextes vers le site de APE de Crosmières ainsi
@@ -144,25 +150,11 @@
     </p>
     <p class="team">
       Site créé par la Team APE, apprenants de l'école O'clock
-      <a
-        href="https://www.linkedin.com/in/christophe-desmarres/"
-        target="_blank"
-        >Christophe D.</a
-      >,
-      <a href="https://www.linkedin.com/in/natalene-dubois/" target="_blank"
-        >Natalène D.</a
-      >,
-      <a href="https://linkedin.com/in/loïc-debruille" target="_blank"
-        >Loïc D.</a
-      >,
-      <a
-        href="http://linkedin.com/in/emilie-potier-developpeuse-web"
-        target="_blank"
-        >Emilie P.</a
-      >,
-      <a href="http://www.linkedin.com/in/julien-le-brenn" target="_blank"
-        >Julien L.</a
-      >, pour l'APE de Crosmières
+      <a href="https://www.linkedin.com/in/christophe-desmarres/" target="_blank">Christophe D.</a>,
+      <a href="https://www.linkedin.com/in/natalene-dubois/" target="_blank">Natalène D.</a>,
+      <a href="https://linkedin.com/in/loïc-debruille" target="_blank">Loïc D.</a>,
+      <a href="http://linkedin.com/in/emilie-potier-developpeuse-web" target="_blank">Emilie P.</a>,
+      <a href="http://www.linkedin.com/in/julien-le-brenn" target="_blank">Julien L.</a>, pour l'APE de Crosmières
     </p>
   </section>
 </template>
@@ -211,6 +203,7 @@ section {
     color: $blue-dark;
     font-weight: bold;
   }
+
   .team {
     margin-top: 1rem;
   }

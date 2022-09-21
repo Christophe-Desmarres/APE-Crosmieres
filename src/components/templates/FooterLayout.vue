@@ -1,21 +1,22 @@
 <template>
     <footer>
         <ul class="footer--list">
-            <li class="footer--list__link"><a target="_blank" href="https://www.facebook.com/groups/apecrosmieres/">Facebook</a></li>  
-            <li class="footer--list__link"><a href="mailto: chrisdmar12@gmail.com">Nous contacter</a></li>
+            <li class="footer--list__link"><a target="_blank"
+                    href="https://www.facebook.com/profile.php?id=100013912069083">Facebook</a></li>
+            <li class="footer--list__link"><a href="mailto: apecrosmieres@gmail.com">Nous contacter</a></li>
 
             <li class="footer--list__link">
-                <router-link v-bind:to="{ name: 'legal-notices' }" class="link" id="#policy">
+                <router-link v-bind:to="{ name: 'legal-notices', hash: '#policy' }" class="link" >
                     Politique de confidentialité
                 </router-link>
             </li>
             <li class="footer--list__link">
-                <router-link v-bind:to="{ name: 'legal-notices' }" class="link" id="#legal">
+                <router-link v-bind:to="{ name: 'legal-notices', hash: '#legal' }" class="link" >
                     Mentions légales
                 </router-link>
             </li>
             <li class="footer--list__link">
-                <router-link v-bind:to="{ name: 'legal-notices' }" class="link" id="#condition">
+                <router-link v-bind:to="{ name: 'legal-notices', hash: '#condition'}" class="link" >
                     Conditions générales
                 </router-link>
             </li>
@@ -28,6 +29,7 @@
 
 
 <script>
+
 export default {
     name: 'FooterLayout',
 }
@@ -83,7 +85,7 @@ footer {
 @media (max-width: 576px) {
     footer {
         height: 5.3rem;
-    
+
         ul {
             display: flex;
             flex-wrap: wrap;

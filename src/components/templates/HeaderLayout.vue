@@ -128,6 +128,7 @@
 <script>
 import profil from '@/assets/images/profil.svg'
 import logoAPE from '@/assets/images/logo-tampon-APE-140.png'
+
 export default {
   name: 'HeaderLayout',
   //IF TRUE WE ARE IN BACK OFFICE -> Hidden NAV
@@ -342,6 +343,7 @@ header {
     //WE USE THE underlineAnim.scss for animate nav  
     @import "../../assets/animations/underlineAnim.scss";
   }
+
 }
 
 //<----------------------MENU BURGER ---------------->
