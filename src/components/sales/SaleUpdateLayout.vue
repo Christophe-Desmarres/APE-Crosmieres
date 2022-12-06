@@ -78,13 +78,7 @@
         </div>
       </div>
     </div>
-    <p style="visibility: hidden">
-      Illustration by
-      <a href="https://icons8.com/illustrations/author/541847"
-        >Murat Kalkavan</a
-      >
-      from <a href="https://icons8.com/illustrations">Ouch!</a>
-    </p>
+
   </section>
 </template>
 

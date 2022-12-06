@@ -3,11 +3,7 @@
     <div class="container">
       <div class="field">
         <div class="field__title">
-          <img
-            class="logo--img"
-            src="../../assets/images/jelly-message-sent-by-character.png"
-            alt=""
-          />
+          <img class="logo--img" src="../../assets/images/jelly-message-sent-by-character.png" alt="" />
           <h1 class="title">Ajout d'un évènement</h1>
         </div>
 
@@ -19,56 +15,26 @@
         </select>
 
         <label class="field__label">Titre de la publication </label>
-        <input
-          class="field__input"
-          type="text"
-          placeholder=""
-          v-model="title"
-        />
+        <input class="field__input" type="text" placeholder="" v-model="title" />
 
         <label class="field__label">Description </label>
-        <textarea
-          class="textarea field__input"
-          type="text"
-          placeholder=""
-          rows="3"
-          v-model="content"
-        ></textarea>
+        <textarea class="textarea field__input" type="text" placeholder="" rows="3" v-model="content"></textarea>
 
         <label class="field__label">Date de l'évènement </label>
-        <input
-          class="field__input"
-          type="date"
-          placeholder=""
-          v-model="eventDate"
-        />
+        <input class="field__input" type="date" placeholder="" v-model="eventDate" />
 
         <label class="field__label">Lieu de l'évènement </label>
-        <input
-          class="field__input"
-          type="text"
-          placeholder=""
-          v-model="location"
-        />
+        <input class="field__input" type="text" placeholder="" v-model="location" />
 
         <label class="field__label"> Image </label>
-        <input
-          class="field__input"
-          type="file"
-          accept="image/*"
-          ref="file"
-          @change="selectImage"
-        />
+        <input class="field__input" type="file" accept="image/*" ref="file" @change="selectImage" />
         <p class="error" v-for="error in errors" v-bind:key="error">
           {{ error }}
         </p>
         <p class="alert" v-if="alerts">
           {{ alerts }}
         </p>
-        <button
-          class="btn btn-success btn-sm float-right"
-          @click="imageValidate"
-        >
+        <button class="btn btn-success btn-sm float-right" @click="imageValidate">
           Soumettre
         </button>
       </div>
@@ -89,14 +55,7 @@
         </div>
       </div>
     </div>
-
-    <p style="visibility: hidden">
-      Illustration by
-      <a href="https://icons8.com/illustrations/author/541847"
-        >Murat Kalkavan</a
-      >
-      from <a href="https://icons8.com/illustrations">Ouch!</a>
-    </p>
+    
   </section>
 </template>
 
@@ -315,10 +274,13 @@ export default {
         float: left;
         margin: 0.5rem;
       }
+
       select {
         border: 1px solid $blue;
       }
-      .field__input {
+
+      .field__input,
+      #field__select {
         line-height: 3;
         border: 1px solid $blue;
         border-radius: 0.5em;
@@ -451,13 +413,12 @@ export default {
           }
         }
 
-        .field__label {
+        .field__label,
+        .field__input,
+        #field__select {
           width: 100%;
         }
 
-        .field__input {
-          width: 100%;
-        }
       }
     }
   }

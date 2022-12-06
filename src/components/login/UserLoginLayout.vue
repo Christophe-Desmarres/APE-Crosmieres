@@ -26,6 +26,9 @@
       <input v-model="password" class="inputbox" :type="passwordFieldType" placeholder="Votre mot de passe" />
         </div>
         <button v-on:click="login" class="subscribe">Connexion</button>
+        <router-link v-if="!this.$store.getters.getToken" v-bind:to="{ name: 'registration' }"
+            class="connexion__link">Pas encore inscris ? C'est par ici
+          </router-link>
       </div>
     </div>
   </section>
@@ -218,6 +221,12 @@ export default {
       font-size: 1rem;
       margin-bottom: 1rem;
     }
+    .connexion__link {
+      color: $red;
+      font-size: 1rem;
+      margin-bottom: 1rem;
+    }
+
   }
 
   @media (max-width: 425px) {

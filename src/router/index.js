@@ -172,7 +172,7 @@ router.beforeEach((to) => {
         return true
       }
       return {
-        name: "registration"
+        name: "login"
       };
 
     case 'eventsList':
@@ -180,7 +180,7 @@ router.beforeEach((to) => {
         return true
       }
       return {
-        name: "registration"
+        name: "login"
       };
 
     case 'salesList':
@@ -188,7 +188,7 @@ router.beforeEach((to) => {
         return true
       }
       return {
-        name: "registration"
+        name: "login"
       };
 
     case 'event':
@@ -196,7 +196,7 @@ router.beforeEach((to) => {
         return true
       }
       return {
-        name: "registration"
+        name: "login"
       };
 
     case 'sale':
@@ -204,7 +204,7 @@ router.beforeEach((to) => {
         return true
       }
       return {
-        name: "registration"
+        name: "login"
       };
 
     case 'userprofil':
@@ -212,7 +212,7 @@ router.beforeEach((to) => {
         return true
       }
       return {
-        name: "registration"
+        name: "login"
       };
 
       // Road for members 
