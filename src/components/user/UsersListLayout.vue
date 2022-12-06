@@ -46,6 +46,7 @@
           </div>
           <div class="col col-3">Téléphone</div>
           <div class="col col-4">Email</div>
+          <div class="col col-4">Leurs gosses</div>
           <div class="col col-5" v-if="this.$store.getters.getRole === 'administrator'"></div>
         </li>
 
@@ -74,11 +75,16 @@
               {{ user.email }}
             </a>
           </div>
+
           <div class="col col-4" data-label="Email" v-if="this.$store.getters.getRole === 'apemember'">
             <a :href="'mailto:' + user.user_email ">
               {{ user.user_email }}
             </a>
           </div>
+          <div class="col col-4" data-label="Enfant" v-if="this.$store.getters.getRole === 'administrator'">
+              {{ user.child }}
+          </div>
+          
           <!-- Only the admin can modify the users list -->
           <div v-if="this.$store.getters.getRole === 'apemember'"></div>
           <div v-if="this.$store.getters.getRole === 'administrator'" class="col col-5">
@@ -142,6 +148,7 @@
 <script>
 import UserLoginService from "@/services/login/UserLoginService";
 import UserService from "@/services/user/UserService";
+import ChildRegistrationService from "@/services/registration/ChildRegistrationService";
 import trash from "@/assets/images/icons8-trash-can-100.png";
 import edit from "@/assets/images/icons8-edit-100.png";
 
@@ -173,6 +180,22 @@ export default {
       this.users = await UserLoginService.findAll();
       // to add the phone meta, we browse all users
       this.users.forEach(async (user) => {
+
+        // to recover child according to parents
+        let child = await ChildRegistrationService.findChild(user.id);
+
+        // for the list of child's firstname
+        if(child.length !== 0){
+          user["child"] = "( ";
+          for (let index = 0; index < child.length; index++) {
+            user["child"] += child[index].child_firstname;
+            if(child[index+1]){
+              user["child"] += ", ";
+            }
+          }
+          user["child"] += " )";
+        }
+
         let phone = "";
         // for current user, we retrieve the meta data
         let arrayMeta = await UserLoginService.getMeta(user.id);
