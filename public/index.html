@@ -6,6 +6,9 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
   <link rel="icon" href="<%= BASE_URL %>favicon.png">
+  <link rel="manifest" href="<%= BASE_URL %>manifest.json">
+  <link rel="android-icon" href="<%= BASE_URL %>icons/icon-512.png">
+  <meta name="theme-color" content="#6dcdb1">
   <meta name="descrition" content="Retrouvez toute l'actualité de <strong>l'Amicale des Parents d’Elèves de Crosmières</strong> sur leur nouveau site internet ! Ventes, évènements, présentation, etc...">
   <meta name="keywords" content="APE, Crosmières, école, tilleul, crosmieres, vente, événement">
   <title><%= htmlWebpackPlugin.options.title %></title>
@@ -18,6 +21,7 @@
   </noscript>
   <div id="app"></div>
   <!-- built files will be auto injected -->
+  <script src="./sw.js"></script>
 </body>
 
 </html>

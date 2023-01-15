@@ -4,7 +4,7 @@
       <button v-if="showForm == false" @click="showForm = true">
         Je m'inscris
       </button>
-      <div v-if="showForm">
+      <div v-if="!showForm">
         <div class="download">
           <a @click="downloadimg" class="download__link">
             Formulaire d'inscription
@@ -105,6 +105,81 @@
             placeholder="nb de repas ?"
           />
 
+
+
+
+
+
+
+
+          <ul class="responsive-table">
+        <li class="table-header">
+          <div class="col col-0">emplacement</div>
+          <div class="col col-1">nb</div>
+          <div class="col col-2">size</div>
+          <div class="col col-3">selected</div>
+          <div class="col col-5">action {{  nbOrder }}
+            <img v-on:click="addOrder" v-bind:src="add" class="picture"
+              title="Ajoute une commande" />
+          </div>
+        </li>
+
+        <li class="table-row" v-for="oneOrder in nbOrder" v-bind:key="oneOrder">
+          <div class="col col-0" data-label="place">
+        <select id="field__select" v-model="selected">
+          <option value="actuality">Sur place</option>
+          <option value="statement">A emporter</option>
+        </select>
+          </div>
+          <div class="col col-1" data-label="number" >
+            <input
+            type="number"
+            v-model="nbOneOrder"
+            class="field__input"
+          />
+        </div>
+          <div class="col col-2" data-label="size">
+            <select id="field__select" v-model="selected">
+          <option value="actuality">Adulte</option>
+          <option value="statement">Enfant</option>
+        </select>
+      </div>
+          <div class="col col-3" data-label="selected">
+            <select id="field__select" v-model="selected">
+          <option value="actuality">Tartiflette</option>
+          <option value="statement">assiette anglaise</option>
+        </select>          </div>
+          <div></div>
+          <div class="col col-5">
+
+            <img v-on:click="addLigne()" class="picture" title="Supprimer ce compte" alt="trash"
+              v-bind:src="trash" />
+          </div>
+        </li>
+      </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
           <label class="field__label"> Commentaires </label>
           <textarea
             class="field__input"
@@ -130,11 +205,15 @@
 <script>
 import UserService from "@/services/user/UserService";
 import EventService from "@/services/events/EventService";
+import trash from "@/assets/images/icons8-trash-can-100.png";
+import add from "@/assets/images/crayon-1042.png";
 
 export default {
   name: "EventRegisterForm",
   data() {
     return {
+      add:add,
+      trash:trash,
       name: null,
       email: null,
       message: null,
@@ -145,12 +224,21 @@ export default {
       help: null,
       order: null,
       nbsaucisse: null,
+      nbOrder:0,
+      oneOrder: ['', 0, '', ''],
+      orderList:[0],
       showForm: false,
       startTime: null,
       endTime: null,
     };
   },
   methods: {
+    addOrder() {
+    return this.nbOrder++;
+    // this.orderList.push(this.nbOrder);
+    // this.oneOrder.push(this.nbOrder);
+    // return this.orderList;
+  },
     // to submit fields and send email
     async submitForm() {
       // Reset error and alert table
@@ -235,6 +323,11 @@ export default {
       }, 5000);
     },
   },
+
+computed: {
+
+
+  }
 };
 </script>
 
@@ -343,6 +436,165 @@ export default {
       flex-wrap: wrap;
       align-items: baseline;
       width: 100%;
+
+
+
+
+
+
+
+
+
+
+      .responsive-table {
+        width: 80%;
+        margin: 0 auto;
+
+      li {
+        display: flex;
+        justify-content: flex-start;
+        text-align: left;
+        align-items: center;
+        margin-bottom: 25px;
+        background-color: $white;
+        height: auto;
+        margin: 0.2rem auto;
+        border-radius: 1rem;
+        box-shadow: 0px 17px 34px -20px $blue-bg-header;
+        padding: 0.3rem;
+      }
+
+      .table-header {
+        background-color: #95a5a6;
+        font-size: 1rem;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+      }
+
+      .table-row {
+        background-color: #ffffff;
+        box-shadow: 0px 0px 9px 0px rgba(0, 0, 0, 0.1);
+
+        .role::before {
+          content: '.';
+          font-weight: bold;
+        }
+
+        .administrateur::before {
+          color: red;
+        }
+
+        .user::before {
+          color: green;
+        }
+
+        .member::before {
+          color: orange;
+        }
+      }
+
+      .table-row:nth-child(odd) {
+        background-color: rgba(255, 255, 255, 0.459);
+      }
+
+      .col-0 {
+        flex-basis: 10%;
+        margin-right: 1rem;
+      }
+
+      .col-1 {
+        margin-left: 0.2rem;
+        flex-basis: 20%;
+      }
+
+      .col-2 {
+        margin-left: 0.2rem;
+        flex-basis: 20%;
+      }
+
+      .col-3 {
+        margin-left: 0.2rem;
+        flex-basis: 20%;
+      }
+
+      .col-4 {
+        margin-left: 0.2rem;
+        flex-basis: 20%;
+      }
+
+      .col-5 {
+        width: 100%;
+        flex-basis: 20%;
+        margin-right: 1rem;
+      }
+
+      .picture {
+        height: 4rem;
+        cursor: pointer;
+        float: right;
+      }
+
+      .picture:hover {
+        filter: brightness(1.1);
+        transform: scale(1.2);
+      }
+
+      @media all and (max-width: 767px) {
+        .table-header {
+          display: none;
+        }
+
+        .table-row {}
+
+        li {
+          display: block;
+        }
+
+        .col {
+          flex-basis: 100%;
+        }
+
+        .col {
+          display: flex;
+          padding: 10px 0;
+
+          &:before {
+            color: #6c7a89;
+            padding-right: 10px;
+            content: attr(data-label);
+            flex-basis: 25%;
+            text-align: left;
+          }
+        }
+
+        .picture {
+          width: auto;
+          margin: auto 0;
+        }
+      }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
       .title {
         font-size: 1.6rem;

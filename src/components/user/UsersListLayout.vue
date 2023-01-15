@@ -46,7 +46,7 @@
           </div>
           <div class="col col-3">Téléphone</div>
           <div class="col col-4">Email</div>
-          <div class="col col-4">Leurs gosses</div>
+          <div class="col col-4">Enfants</div>
           <div class="col col-5" v-if="this.$store.getters.getRole === 'administrator'"></div>
         </li>
 
