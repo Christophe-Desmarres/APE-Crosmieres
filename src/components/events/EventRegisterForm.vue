@@ -109,50 +109,60 @@
 
 
 
+        <!-- implementation -->
 
 
-
-          <ul class="responsive-table">
+          <ul  v-if="true" class="responsive-table">
         <li class="table-header">
           <div class="col col-0">emplacement</div>
           <div class="col col-1">nb</div>
           <div class="col col-2">size</div>
           <div class="col col-3">selected</div>
-          <div class="col col-5">action {{  nbOrder }}
-            <img v-on:click="addOrder" v-bind:src="add" class="picture"
-              title="Ajoute une commande" />
+          <div class="col col-4">{{ nbOrder }}</div>
+          <div class="col col-5">
+            <img 
+            v-on:click="addOrder" 
+            v-bind:src="add" 
+            class="picture--plus"
+            title="Ajoute une commande" />
           </div>
         </li>
 
         <li class="table-row" v-for="oneOrder in nbOrder" v-bind:key="oneOrder">
           <div class="col col-0" data-label="place">
-        <select id="field__select" v-model="selected">
-          <option value="actuality">Sur place</option>
-          <option value="statement">A emporter</option>
+        <select class="table--select" v-model="selected">
+          <option value="surplace" default>Sur place</option>
+          <option value="emporter">A emporter</option>
         </select>
           </div>
           <div class="col col-1" data-label="number" >
             <input
             type="number"
             v-model="nbOneOrder"
-            class="field__input"
+            class="table--field__input"
           />
         </div>
+
+
           <div class="col col-2" data-label="size">
-            <select id="field__select" v-model="selected">
-          <option value="actuality">Adulte</option>
-          <option value="statement">Enfant</option>
-        </select>
-      </div>
+          <select class="table--select" v-model="selected">
+            <option value="actuality">Adulte</option>
+            <option value="statement">Enfant</option>
+          </select>
+    </div>
+
           <div class="col col-3" data-label="selected">
-            <select id="field__select" v-model="selected">
+            <select class="table--select" v-model="selected">
           <option value="actuality">Tartiflette</option>
           <option value="statement">assiette anglaise</option>
-        </select>          </div>
-          <div></div>
+        </select>
+        </div>
+
+          <div class="col col-4"></div>
+
           <div class="col col-5">
 
-            <img v-on:click="addLigne()" class="picture" title="Supprimer ce compte" alt="trash"
+            <img v-on:click="removeOrder" class="picture" title="Supprimer ce compte" alt="trash"
               v-bind:src="trash" />
           </div>
         </li>
@@ -162,12 +172,7 @@
 
 
 
-
-
-
-
-
-
+<!-- fin implementation -->
 
 
 
@@ -224,7 +229,7 @@ export default {
       help: null,
       order: null,
       nbsaucisse: null,
-      nbOrder:0,
+      nbOrder:1,
       oneOrder: ['', 0, '', ''],
       orderList:[0],
       showForm: false,
@@ -239,6 +244,13 @@ export default {
     // this.oneOrder.push(this.nbOrder);
     // return this.orderList;
   },
+  removeOrder() {
+    return this.nbOrder--;
+    // this.orderList.push(this.nbOrder);
+    // this.oneOrder.push(this.nbOrder);
+    // return this.orderList;
+  },
+
     // to submit fields and send email
     async submitForm() {
       // Reset error and alert table
@@ -462,7 +474,9 @@ computed: {
         border-radius: 1rem;
         box-shadow: 0px 17px 34px -20px $blue-bg-header;
         padding: 0.3rem;
+        
       }
+      
 
       .table-header {
         background-color: #95a5a6;
@@ -475,6 +489,7 @@ computed: {
         background-color: #ffffff;
         box-shadow: 0px 0px 9px 0px rgba(0, 0, 0, 0.1);
 
+        
         .role::before {
           content: '.';
           font-weight: bold;
@@ -497,14 +512,39 @@ computed: {
         background-color: rgba(255, 255, 255, 0.459);
       }
 
+      div.col{
+        text-align: center;
+        line-height: 3rem;
+        width: 100%;        
+      .table--select {
+        background-color: blue;
+
+        border: 1px solid $blue-light-bg;
+        border-radius: 0.5em;
+        margin: 0.5rem auto;
+        padding: 0.2rem 1rem;
+        text-align: left;
+        box-shadow: 0 2px 2px #0000001a;
+      }
+
+      .table--field__input {
+        border: 1px solid $blue-light-bg;
+        background-color: red;
+        border-radius: 0.5em;
+        margin: 0.5rem auto;
+        padding: 0.2rem 1rem;
+        text-align: left;
+        box-shadow: 0 2px 2px #0000001a;
+      }
+      }
       .col-0 {
-        flex-basis: 10%;
-        margin-right: 1rem;
+        margin-left: 0.2rem;
+        flex-basis: 20%;
       }
 
       .col-1 {
         margin-left: 0.2rem;
-        flex-basis: 20%;
+        flex-basis: 10%;
       }
 
       .col-2 {
@@ -525,13 +565,16 @@ computed: {
       .col-5 {
         width: 100%;
         flex-basis: 20%;
-        margin-right: 1rem;
+        margin: 0.1rem auto;
       }
 
       .picture {
         height: 4rem;
         cursor: pointer;
-        float: right;
+      }
+      .picture--plus{
+        height: 2rem;
+        cursor: pointer;
       }
 
       .picture:hover {
