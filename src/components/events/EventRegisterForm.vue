@@ -114,11 +114,11 @@
 
           <ul  v-if="true" class="responsive-table">
         <li class="table-header">
-          <div class="col col-0">emplacement</div>
+          <div class="col col-0">retrait</div>
           <div class="col col-1">nb</div>
-          <div class="col col-2">size</div>
-          <div class="col col-3">selected</div>
-          <div class="col col-4">{{ nbOrder }}</div>
+          <div class="col col-2">taille</div>
+          <div class="col col-3">menu</div>
+          <div class="col col-4"></div>
           <div class="col col-5">
             <img 
             v-on:click="addOrder" 
@@ -128,41 +128,41 @@
           </div>
         </li>
 
-        <li class="table-row" v-for="oneOrder in nbOrder" v-bind:key="oneOrder">
-          <div class="col col-0" data-label="place">
-        <select class="table--select" v-model="selected">
-          <option value="surplace" default>Sur place</option>
+        <li class="table-row" v-for="index in orderList.length" v-bind:key="index" v-bind:id="index">
+          <div class="col col-0" data-label="retrait">
+        <select class="table--select" v-model="orderList[index-1].retrait">
+          <option value="surplace">Sur place</option>
           <option value="emporter">A emporter</option>
         </select>
           </div>
+
           <div class="col col-1" data-label="number" >
             <input
             type="number"
-            v-model="nbOneOrder"
+            v-model="orderList[index-1].nombre"
             class="table--field__input"
-          />
+          />index {{ index }}
         </div>
 
 
           <div class="col col-2" data-label="size">
-          <select class="table--select" v-model="selected">
-            <option value="actuality">Adulte</option>
-            <option value="statement">Enfant</option>
+          <select class="table--select" v-model="orderList[index-1].taille">
+            <option value="Adulte">Adulte</option>
+            <option value="Enfant">Enfant</option>
           </select>
     </div>
 
           <div class="col col-3" data-label="selected">
-            <select class="table--select" v-model="selected">
-          <option value="actuality">Tartiflette</option>
-          <option value="statement">assiette anglaise</option>
+            <select class="table--select" v-model="orderList[index-1].menu">
+          <option value="Tartiflette">Tartiflette</option>
+          <option value="anglaise">assiette anglaise</option>
         </select>
         </div>
 
           <div class="col col-4"></div>
 
           <div class="col col-5">
-
-            <img v-on:click="removeOrder" class="picture" title="Supprimer ce compte" alt="trash"
+            <img v-on:click="removeOrder(index-1)" class="picture" title="Supprimer cette commande" alt="trash"
               v-bind:src="trash" />
           </div>
         </li>
@@ -229,9 +229,12 @@ export default {
       help: null,
       order: null,
       nbsaucisse: null,
-      nbOrder:1,
-      oneOrder: ['', 0, '', ''],
-      orderList:[0],
+      orderList:[{
+        retrait:'',
+        nombre: 0,
+        taille: '',
+        menu: '',
+      }],
       showForm: false,
       startTime: null,
       endTime: null,
@@ -239,16 +242,16 @@ export default {
   },
   methods: {
     addOrder() {
-    return this.nbOrder++;
-    // this.orderList.push(this.nbOrder);
-    // this.oneOrder.push(this.nbOrder);
-    // return this.orderList;
+      this.orderList.push({
+        retrait:'',
+        nombre: 0,
+        taille: '',
+        menu: '',
+      });
   },
-  removeOrder() {
-    return this.nbOrder--;
-    // this.orderList.push(this.nbOrder);
-    // this.oneOrder.push(this.nbOrder);
-    // return this.orderList;
+
+  removeOrder(index) {
+    this.orderList.splice(index,1)
   },
 
     // to submit fields and send email
@@ -300,6 +303,7 @@ export default {
             startTime: this.startTime,
             endTime: this.endTime,
             eventTitle: event.title.rendered,
+            orderList: this.orderList,
           };
           const response = await UserService.sendEmail(params);
           // reset field if send ok
@@ -467,7 +471,6 @@ computed: {
         justify-content: flex-start;
         text-align: left;
         align-items: center;
-        margin-bottom: 25px;
         background-color: $white;
         height: auto;
         margin: 0.2rem auto;
@@ -489,23 +492,6 @@ computed: {
         background-color: #ffffff;
         box-shadow: 0px 0px 9px 0px rgba(0, 0, 0, 0.1);
 
-        
-        .role::before {
-          content: '.';
-          font-weight: bold;
-        }
-
-        .administrateur::before {
-          color: red;
-        }
-
-        .user::before {
-          color: green;
-        }
-
-        .member::before {
-          color: orange;
-        }
       }
 
       .table-row:nth-child(odd) {
