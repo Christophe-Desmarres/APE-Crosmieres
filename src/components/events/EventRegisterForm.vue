@@ -9,67 +9,29 @@
           <a @click="downloadimg" class="download__link">
             Formulaire d'inscription
           </a>
-          <img
-            class="download__icon"
-            src="../../assets/images/jelly-character-gets-a-printed-document.png"
-            alt=""
-          />
+          <img class="download__icon" src="../../assets/images/jelly-character-gets-a-printed-document.png" alt="" />
         </div>
 
         <div class="field">
           <label class="field__label"> Nom </label>
-          <input
-            type="text"
-            v-model="name"
-            class="field__input"
-            placeholder="Votre nom"
-          />
+          <input type="text" v-model="name" class="field__input" placeholder="Votre nom" />
 
           <label class="field__label"> Email </label>
-          <input
-            type="email"
-            v-model="email"
-            class="field__input"
-            placeholder="Votre adresse email"
-          />
+          <input type="email" v-model="email" class="field__input" placeholder="Votre adresse email" />
 
           <label class="field__label"> Je veux </label>
           <div class="button--radio__group">
             <div class="button--radio__element">
-              <input
-                type="checkbox"
-                class="button--radio"
-                v-model="participate"
-                value="participer"
-                id="participate"
-              />
-              <label class="button--radio__title" for="participate"
-                >Participer</label
-              >
+              <input type="checkbox" class="button--radio" v-model="participate" value="participer" id="participate" />
+              <label class="button--radio__title" for="participate">Participer</label>
             </div>
             <div class="button--radio__element">
-              <input
-                type="checkbox"
-                class="button--radio"
-                v-model="help"
-                value="aider"
-                id="help"
-              />
-              <label class="button--radio__title" for="help"
-                >Aider à l'organisation</label
-              >
+              <input type="checkbox" class="button--radio" v-model="help" value="aider" id="help" />
+              <label class="button--radio__title" for="help">Aider à l'organisation</label>
             </div>
             <div class="button--radio__element">
-              <input
-                type="checkbox"
-                class="button--radio"
-                v-model="order"
-                value="commander"
-                id="order"
-              />
-              <label class="button--radio__title" for="order"
-                >Commander</label
-              >
+              <input type="checkbox" class="button--radio" v-model="order" value="commander" id="order" />
+              <label class="button--radio__title" for="order">Commander</label>
             </div>
           </div>
 
@@ -77,102 +39,78 @@
           <div v-if="help" class="field__time">
             <div class="field__input--start">
               <label class="field__label--time"> à partir de </label>
-              <input
-                type="time"
-                v-model="startTime"
-                class="field__input--time"
-                placeholder="Heure début de votre disponibilité"
-              />
+              <input type="time" v-model="startTime" class="field__input--time"
+                placeholder="Heure début de votre disponibilité" />
             </div>
             <div class="field__input--end">
               <label class="field__label--time"> Jusqu'à </label>
-              <input
-                type="time"
-                v-model="endTime"
-                class="field__input--time"
-                placeholder="Heure début de votre disponibilité"
-              />
+              <input type="time" v-model="endTime" class="field__input--time"
+                placeholder="Heure début de votre disponibilité" />
             </div>
           </div>
           <label v-if="order" class="field__label">
             Combien voulez vous
           </label>
-          <input
-            v-if="order"
-            type="text"
-            v-model="nbsaucisse"
-            class="field__input"
-            placeholder="nb de repas ?"
-          />
+          <input v-if="order" type="text" v-model="nbsaucisse" class="field__input" placeholder="nb de repas ?" />
 
 
 
 
 
-        <!-- implementation -->
+          <!-- implementation -->
 
 
-          <ul  v-if="true" class="responsive-table">
-        <li class="table-header">
-          <div class="col col-0">retrait</div>
-          <div class="col col-1">nb</div>
-          <div class="col col-2">taille</div>
-          <div class="col col-3">menu</div>
-          <div class="col col-4"></div>
-          <div class="col col-5">
-            <img 
-            v-on:click="addOrder" 
-            v-bind:src="add" 
-            class="picture--plus"
-            title="Ajoute une commande" />
-          </div>
-        </li>
+          <ul v-if="true" class="responsive-table">
+            <li class="table-header">
+              <div class="col col-0">retrait</div>
+              <div class="col col-1">nombre</div>
+              <div class="col col-2">taille</div>
+              <div class="col col-3">menu</div>
+              <div class="col col-5" data-label="ajoute une commande">
+                <img v-on:click="addOrder" v-bind:src="add" class="picture--plus" title="Ajoute une commande" />
+              </div>
+            </li>
 
-        <li class="table-row" v-for="index in orderList.length" v-bind:key="index" v-bind:id="index">
-          <div class="col col-0" data-label="retrait">
-        <select class="table--select" v-model="orderList[index-1].retrait">
-          <option value="surplace">Sur place</option>
-          <option value="emporter">A emporter</option>
-        </select>
-          </div>
+            <li class="table-row" v-for="index in orderList.length" v-bind:key="index" v-bind:id="index">
+              <div class="col col-0" data-label="retrait">
+                <select class="table--select" v-model="orderList[index - 1].retrait">
+                  <option value="surplace">Sur place</option>
+                  <option value="emporter">A emporter</option>
+                </select>
+              </div>
 
-          <div class="col col-1" data-label="number" >
-            <input
-            type="number"
-            v-model="orderList[index-1].nombre"
-            class="table--field__input"
-          />index {{ index }}
-        </div>
+              <div class="col col-1" data-label="nombre">
+                <input class="table--field__input" type="number" min="0" v-model="orderList[index - 1].nombre" />
+              </div>
 
 
-          <div class="col col-2" data-label="size">
-          <select class="table--select" v-model="orderList[index-1].taille">
-            <option value="Adulte">Adulte</option>
-            <option value="Enfant">Enfant</option>
-          </select>
-    </div>
+              <div class="col col-2" data-label="taille">
+                <select class="table--select" v-model="orderList[index - 1].taille">
+                  <option value="Adulte">Adulte</option>
+                  <option value="Enfant">Enfant</option>
+                </select>
+              </div>
 
-          <div class="col col-3" data-label="selected">
-            <select class="table--select" v-model="orderList[index-1].menu">
-          <option value="Tartiflette">Tartiflette</option>
-          <option value="anglaise">assiette anglaise</option>
-        </select>
-        </div>
+              <div class="col col-3" data-label="menu">
+                <select class="table--select" v-model="orderList[index - 1].menu">
+                  <option value="Tartiflette">Tartiflette</option>
+                  <option value="anglaise">assiette anglaise</option>
+                </select>
+              </div>
 
-          <div class="col col-4"></div>
 
-          <div class="col col-5">
-            <img v-on:click="removeOrder(index-1)" class="picture" title="Supprimer cette commande" alt="trash"
-              v-bind:src="trash" />
-          </div>
-        </li>
-      </ul>
+              <div class="col col-5">
+                <img v-on:click="removeOrder(index - 1)" class="picture" title="Supprimer cette commande"
+                  alt="suppression" v-bind:src="trash" />
+              </div>
+            </li>
+          </ul>
 
 
 
 
 
-<!-- fin implementation -->
+          <!-- fin implementation -->
 
 
 
@@ -186,12 +124,7 @@
 
 
           <label class="field__label"> Commentaires </label>
-          <textarea
-            class="field__input"
-            v-model="message"
-            rows="2"
-            placeholder="Sujet"
-          ></textarea>
+          <textarea class="field__input" v-model="message" rows="2" placeholder="Sujet"></textarea>
 
           <button @click="submitForm">Je m'inscris</button>
         </div>
@@ -217,8 +150,8 @@ export default {
   name: "EventRegisterForm",
   data() {
     return {
-      add:add,
-      trash:trash,
+      add: add,
+      trash: trash,
       name: null,
       email: null,
       message: null,
@@ -229,8 +162,8 @@ export default {
       help: null,
       order: null,
       nbsaucisse: null,
-      orderList:[{
-        retrait:'',
+      orderList: [{
+        retrait: '',
         nombre: 0,
         taille: '',
         menu: '',
@@ -243,16 +176,16 @@ export default {
   methods: {
     addOrder() {
       this.orderList.push({
-        retrait:'',
+        retrait: '',
         nombre: 0,
         taille: '',
         menu: '',
       });
-  },
+    },
 
-  removeOrder(index) {
-    this.orderList.splice(index,1)
-  },
+    removeOrder(index) {
+      this.orderList.splice(index, 1)
+    },
 
     // to submit fields and send email
     async submitForm() {
@@ -340,7 +273,7 @@ export default {
     },
   },
 
-computed: {
+  computed: {
 
 
   }
@@ -379,6 +312,7 @@ computed: {
       border: 1px solid #ffc107;
       box-shadow: 0 5px 5px #0000001a;
     }
+
     button:hover {
       color: white;
       background-color: #ffc107;
@@ -438,6 +372,7 @@ computed: {
           content: "<<";
         }
       }
+
       .download__icon {
         width: 15vw;
         margin: -1rem auto;
@@ -465,164 +400,111 @@ computed: {
       .responsive-table {
         width: 80%;
         margin: 0 auto;
-
-      li {
-        display: flex;
-        justify-content: flex-start;
-        text-align: left;
-        align-items: center;
-        background-color: $white;
-        height: auto;
-        margin: 0.2rem auto;
-        border-radius: 1rem;
-        box-shadow: 0px 17px 34px -20px $blue-bg-header;
-        padding: 0.3rem;
-        
-      }
-      
-
-      .table-header {
-        background-color: #95a5a6;
         font-size: 1rem;
-        text-transform: uppercase;
-        letter-spacing: 0.03em;
-      }
 
-      .table-row {
-        background-color: #ffffff;
-        box-shadow: 0px 0px 9px 0px rgba(0, 0, 0, 0.1);
-
-      }
-
-      .table-row:nth-child(odd) {
-        background-color: rgba(255, 255, 255, 0.459);
-      }
-
-      div.col{
-        text-align: center;
-        line-height: 3rem;
-        width: 100%;        
-      .table--select {
-        background-color: blue;
-
-        border: 1px solid $blue-light-bg;
-        border-radius: 0.5em;
-        margin: 0.5rem auto;
-        padding: 0.2rem 1rem;
-        text-align: left;
-        box-shadow: 0 2px 2px #0000001a;
-      }
-
-      .table--field__input {
-        border: 1px solid $blue-light-bg;
-        background-color: red;
-        border-radius: 0.5em;
-        margin: 0.5rem auto;
-        padding: 0.2rem 1rem;
-        text-align: left;
-        box-shadow: 0 2px 2px #0000001a;
-      }
-      }
-      .col-0 {
-        margin-left: 0.2rem;
-        flex-basis: 20%;
-      }
-
-      .col-1 {
-        margin-left: 0.2rem;
-        flex-basis: 10%;
-      }
-
-      .col-2 {
-        margin-left: 0.2rem;
-        flex-basis: 20%;
-      }
-
-      .col-3 {
-        margin-left: 0.2rem;
-        flex-basis: 20%;
-      }
-
-      .col-4 {
-        margin-left: 0.2rem;
-        flex-basis: 20%;
-      }
-
-      .col-5 {
-        width: 100%;
-        flex-basis: 20%;
-        margin: 0.1rem auto;
-      }
-
-      .picture {
-        height: 4rem;
-        cursor: pointer;
-      }
-      .picture--plus{
-        height: 2rem;
-        cursor: pointer;
-      }
-
-      .picture:hover {
-        filter: brightness(1.1);
-        transform: scale(1.2);
-      }
-
-      @media all and (max-width: 767px) {
         .table-header {
-          display: none;
+          background-color: #95a5a6;
+          text-transform: uppercase;
+          letter-spacing: 0.03em;
         }
 
-        .table-row {}
+        .table-row {
+          background-color: #ffffff;
+          box-shadow: 0px 0px 9px 0px rgba(0, 0, 0, 0.1);
+        }
+
+
+        .table-row:nth-child(odd) {
+          background-color: rgba(255, 255, 255, 0.459);
+        }
 
         li {
-          display: block;
-        }
-
-        .col {
-          flex-basis: 100%;
-        }
-
-        .col {
           display: flex;
-          padding: 10px 0;
+          justify-content: flex-start;
+          text-align: left;
+          align-items: center;
+          background-color: $white;
+          width: 80%;
+          margin: 0.2rem auto;
+          border-radius: 1rem;
+          box-shadow: 0px 17px 34px -20px $blue-bg-header;
+          padding: 0.3rem;
 
-          &:before {
-            color: #6c7a89;
-            padding-right: 10px;
-            content: attr(data-label);
-            flex-basis: 25%;
-            text-align: left;
+
+
+          .col {
+
+            text-align: center;
+
+            .table--select {
+              border: 1px solid $blue-light-bg;
+              border-radius: 0.5em;
+              margin: 0.5rem auto;
+              padding: 0.2rem;
+              text-align: left;
+              box-shadow: 0 2px 2px #0000001a;
+            }
+
+            .table--field__input {
+              border: 1px solid $blue-light-bg;
+              border-radius: 0.5em;
+              margin: 0.5rem auto;
+              padding: 0.2rem;
+              text-align: left;
+              box-shadow: 0 2px 2px #0000001a;
+              width: 3rem;
+            }
           }
-        }
 
-        .picture {
-          width: auto;
-          margin: auto 0;
+          .col-0 {
+            margin-left: 0.2rem;
+            flex-basis: 20%;
+          }
+
+          .col-1 {
+            margin-left: 0.2rem;
+            flex-basis: 20%;
+          }
+
+          .col-2 {
+            margin-left: 0.2rem;
+            flex-basis: 20%;
+          }
+
+          .col-3 {
+            margin-left: 0.2rem;
+            flex-basis: 20%;
+          }
+
+          // .col-4 {
+          //   margin-left: 0.2rem;
+          //   flex-basis: 20%;
+          // }
+
+          .col-5 {
+            flex-basis: 20%;
+            margin: 0.1rem auto;
+          }
+
+
+          .picture {
+            height: 3rem;
+            cursor: pointer;
+          }
+
+          .picture--plus {
+            height: 2rem;
+            vertical-align: middle;
+            cursor: pointer;
+          }
+
+          .picture:hover {
+            filter: brightness(1.1);
+            transform: scale(1.2);
+          }
+
         }
       }
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
       .title {
@@ -675,6 +557,7 @@ computed: {
       .field__input--time {
         width: 65%;
       }
+
       ::placeholder {
         color: $red;
       }
@@ -691,6 +574,7 @@ computed: {
         border: 1px solid #ffc107;
         box-shadow: 0 5px 5px #0000001a;
       }
+
       button:hover {
         color: white;
         background-color: #ffc107;
@@ -723,12 +607,12 @@ computed: {
 
       .button--radio__element {
         display: inline-block;
-        width: 60%;
+        width: 80%;
         margin: auto;
 
         .button--radio__title {
-          padding: 5px 25px;
-          // width: 80%;
+          padding: 0.5rem 1rem;
+          width: 100%;
           display: block;
           text-align: left;
           color: $grey;
@@ -738,6 +622,7 @@ computed: {
           border-radius: 2rem;
 
           overflow: hidden;
+
           &:before {
             width: 10px;
             height: 10px;
@@ -752,6 +637,7 @@ computed: {
             opacity: 0;
             z-index: -1;
           }
+
           &:after {
             width: 15px;
             height: 15px;
@@ -771,18 +657,21 @@ computed: {
             transition: all 200ms ease-in;
           }
         }
-        .button--radio:checked ~ label {
+
+        .button--radio:checked~label {
           color: $white;
 
           &:before {
             transform: translate(-50%, -50%) scale3d(56, 56, 1);
             opacity: 1;
           }
+
           &:after {
             background-color: $blue;
             border-color: $blue;
           }
         }
+
         .button--radio {
           width: 32px;
           height: 32px;
@@ -798,11 +687,77 @@ computed: {
       }
     }
   }
+     @media screen and (max-width: 1040px) {
+
+        .responsive-table {
+          width: 100%;
+
+          .table-header {
+            margin: 0 auto;
+            width: 90%;
+
+
+            .col-0,
+            .col-1,
+            .col-2,
+            .col-3,
+            .col-4 {
+              display: none;
+            }
+
+            .col-5 {
+              .picture--plus {
+                margin: auto;
+              }
+            }
+          }
+
+
+          .table-row {
+            margin: 0 auto;
+            width: 90%;
+
+          }
+
+          li {
+            display: block;
+            flex-direction: column;
+          }
+
+          .col {
+            flex-basis: 100%;
+            width: 100%;
+          }
+
+          .col {
+            display: flex;
+            padding: 5px 0;
+            align-items: center;
+
+            &:before {
+              color: #6c7a89;
+              padding-right: 10px;
+              content: attr(data-label);
+              flex-basis: 25%;
+
+              text-align: end;
+            }
+          }
+
+
+          .picture {
+            width: auto;
+            margin: auto 0;
+          }
+        }
+
+      }
   @media screen and (max-width: 750px) {
     .container {
       background-color: transparent;
       box-shadow: none;
       border-radius: none;
+
       .download {
         width: 70%;
         flex-direction: column-reverse;
@@ -811,6 +766,7 @@ computed: {
           width: 55vw;
         }
       }
+
       .field {
         display: flex;
         flex-wrap: wrap;
@@ -823,6 +779,7 @@ computed: {
           float: right;
           font-size: 1.2rem;
         }
+
         .button--radio__group,
         .field__input {
           line-height: 3;
@@ -834,6 +791,7 @@ computed: {
           width: 80%;
           float: right;
         }
+
         .button--radio__group {
           background-color: white;
 
@@ -847,6 +805,9 @@ computed: {
         }
       }
     }
+
+
   }
+ 
 }
 </style>
