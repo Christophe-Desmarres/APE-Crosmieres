@@ -4,7 +4,7 @@
       <button v-if="showForm == false" @click="showForm = true">
         Je m'inscris
       </button>
-      <div v-if="!showForm">
+      <div v-if="showForm">
         <div class="download">
           <a @click="downloadimg" class="download__link">
             Formulaire d'inscription
@@ -13,8 +13,8 @@
         </div>
 
         <div class="field">
-          <label class="field__label"> Nom </label>
-          <input type="text" v-model="name" class="field__input" placeholder="Votre nom" />
+          <label class="field__label"> Nom Prénom</label>
+          <input type="text" v-model="name" class="field__input" placeholder="Votre nom et prénom" />
 
           <label class="field__label"> Email </label>
           <input type="email" v-model="email" class="field__input" placeholder="Votre adresse email" />
@@ -48,19 +48,14 @@
                 placeholder="Heure début de votre disponibilité" />
             </div>
           </div>
-          <label v-if="order" class="field__label">
+          <label v-if="false" class="field__label">
             Combien voulez vous
           </label>
-          <input v-if="order" type="text" v-model="nbsaucisse" class="field__input" placeholder="nb de repas ?" />
+          <input v-if="false" type="text" v-model="nbrepas" class="field__input" placeholder="nb de repas ?" />
 
 
-
-
-
-          <!-- implementation -->
-
-
-          <ul v-if="true" class="responsive-table">
+          <!-- implementation menu-->
+          <ul v-if="order" class="responsive-table">
             <li class="table-header">
               <div class="col col-0">retrait</div>
               <div class="col col-1">nombre</div>
@@ -105,23 +100,7 @@
               </div>
             </li>
           </ul>
-
-
-
-
-
-          <!-- fin implementation -->
-
-
-
-
-
-
-
-
-
-
-
+          <!-- fin implementation menu-->
 
           <label class="field__label"> Commentaires </label>
           <textarea class="field__input" v-model="message" rows="2" placeholder="Sujet"></textarea>
@@ -161,7 +140,7 @@ export default {
       participate: null,
       help: null,
       order: null,
-      nbsaucisse: null,
+      nbrepas: null,
       orderList: [{
         retrait: '',
         nombre: 0,
@@ -177,7 +156,7 @@ export default {
     addOrder() {
       this.orderList.push({
         retrait: '',
-        nombre: 0,
+        nombre: 1,
         taille: '',
         menu: '',
       });
@@ -192,8 +171,6 @@ export default {
       // Reset error and alert table
       this.errors = [];
       this.alerts = null;
-
-
 
       // Form Content Validation
       if (!this.name) {
@@ -211,11 +188,42 @@ export default {
           "Veuillez remplir une heure de début et une heure de fin svp"
         );
       }
-      if (this.order && isNaN(this.nbsaucisse)) {
-        this.errors.push(
-          "Veuillez remplir un nombre de saucisses correct (0-99)"
-        );
+
+
+      // if (this.order && isNaN(this.nbrepas)) {
+      //   this.errors.push(
+      //     "Veuillez remplir un nombre de menu correct (0-99)"
+      //   );
+      // }
+
+      if (this.order) {
+        this.orderList.forEach(order => {
+          if (order.nombre === 0 || isNaN(order.nombre)) {
+            this.errors.push(
+              "Veuillez remplir un nombre de menu correct (0-99)"
+            );
+          }
+          if (order.retrait === '') {
+            this.errors.push(
+              "Veuillez remplir un retrait correct"
+            );
+          }
+          if (order.taille === '') {
+            this.errors.push(
+              "Veuillez remplir une taille correcte"
+            );
+          }
+          if (order.menu === '') {
+            this.errors.push(
+              "Veuillez remplir un menu correct"
+            );
+          }
+
+        });
       }
+
+
+
 
       // Send form request if no error
       if (this.participate || this.help || this.order) {
@@ -229,7 +237,7 @@ export default {
             name: this.name,
             email: this.email,
             message: this.message,
-            nbsaucisse: this.nbsaucisse,
+            nbrepas: this.nbrepas,
             participate: this.participate,
             help: this.help,
             order: this.order,
@@ -244,7 +252,7 @@ export default {
             this.name = null;
             this.email = null;
             this.message = null;
-            this.nbsaucisse = null;
+            this.nbrepas = null;
             this.participate = null;
             this.help = null;
             this.order = null;
@@ -624,8 +632,8 @@ export default {
           overflow: hidden;
 
           &:before {
-            width: 10px;
-            height: 10px;
+            width: 15px;
+            height: 15px;
             border-radius: 50%;
             content: "";
             background-color: $red;
@@ -687,71 +695,73 @@ export default {
       }
     }
   }
-     @media screen and (max-width: 1040px) {
 
-        .responsive-table {
-          width: 100%;
+  @media screen and (max-width: 1040px) {
 
-          .table-header {
-            margin: 0 auto;
-            width: 90%;
+    .responsive-table {
+      width: 100%;
 
-
-            .col-0,
-            .col-1,
-            .col-2,
-            .col-3,
-            .col-4 {
-              display: none;
-            }
-
-            .col-5 {
-              .picture--plus {
-                margin: auto;
-              }
-            }
-          }
+      .table-header {
+        margin: 0 auto;
+        width: 90%;
 
 
-          .table-row {
-            margin: 0 auto;
-            width: 90%;
-
-          }
-
-          li {
-            display: block;
-            flex-direction: column;
-          }
-
-          .col {
-            flex-basis: 100%;
-            width: 100%;
-          }
-
-          .col {
-            display: flex;
-            padding: 5px 0;
-            align-items: center;
-
-            &:before {
-              color: #6c7a89;
-              padding-right: 10px;
-              content: attr(data-label);
-              flex-basis: 25%;
-
-              text-align: end;
-            }
-          }
-
-
-          .picture {
-            width: auto;
-            margin: auto 0;
-          }
+        .col-0,
+        .col-1,
+        .col-2,
+        .col-3,
+        .col-4 {
+          display: none;
         }
 
+        .col-5 {
+          .picture--plus {
+            margin: auto;
+          }
+        }
       }
+
+
+      .table-row {
+        margin: 0 auto;
+        width: 90%;
+
+      }
+
+      li {
+        display: block;
+        flex-direction: column;
+      }
+
+      .col {
+        flex-basis: 100%;
+        width: 100%;
+      }
+
+      .col {
+        display: flex;
+        padding: 5px 0;
+        align-items: center;
+
+        &:before {
+          color: #6c7a89;
+          padding-right: 10px;
+          content: attr(data-label);
+          flex-basis: 25%;
+
+          text-align: end;
+        }
+      }
+
+
+      .picture {
+        width: auto;
+        margin: auto 0;
+      }
+    }
+
+  }
+
   @media screen and (max-width: 750px) {
     .container {
       background-color: transparent;
@@ -808,6 +818,6 @@ export default {
 
 
   }
- 
+
 }
 </style>
