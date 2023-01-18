@@ -6,8 +6,7 @@
 
     <h2 class="event--card__title" v-html="title"></h2>
 
-    <div class="event--card__date">{{ date }}</div>
-    <div class="event--card__location">{{ location }}</div>
+    <div class="event--card__date--location">Le {{ date }} à {{ location }}</div>
 
     <img class="event--card__media--image" v-bind:src="image" />
 
@@ -45,7 +44,9 @@ export default {
     let id = this.$route.params.id;
     if (id) {
       let arrayMeta = await EventService.getMeta(id);
-      this.date = arrayMeta.date;
+      const months = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Aout", "Septembre", "Octobre", "Novembre", "Décembre"];
+      let dateISO = new Date(arrayMeta.date);
+      this.date  =  dateISO.getDate() + " " + months[(dateISO.getMonth())] + " " + dateISO.getFullYear();
       this.location = arrayMeta.lieu;
       //Allow to retrieve the id dynamic parameter by using the $route object
       const response = await EventService.find(id);
@@ -97,16 +98,11 @@ export default {
     padding-bottom: 1rem;
   }
 
-  .event--card__date,
-  .event--card__location,
+  .event--card__date--location,
   .event--card__img,
   .event--card__content,
   .event--card__map {
     padding: 1rem;
-  }
-
-  .event--card__date {
-    margin-bottom: 1rem;
   }
 
   .event--card__map {
