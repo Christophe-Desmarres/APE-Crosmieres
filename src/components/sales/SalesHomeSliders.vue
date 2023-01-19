@@ -40,33 +40,35 @@ export default {
             scroll: null,
             slideActive: false,
             nameRoute: null,
-            title: null,
-            content: null
+            title: "Pas de ventes en cours",
+            content: "rdv prochainement"
         }
     },
     methods: {
         SlideAuto() {
                 
-                if (this.slide != this.maxSlide){
-                    this.slide++
-                    this.title=this.saleSlide[this.slide].title.rendered 
-                    this.content=this.saleSlide[this.slide].excerpt.rendered 
+            if(this.maxSlide == -1){
+                // do nothing
+                // no sale in database
+            }
+                else if (this.slide != this.maxSlide){
+                    this.slide++;
+                    this.title=this.saleSlide[this.slide].title.rendered; 
+                    this.content=this.saleSlide[this.slide].excerpt.rendered; 
                 }
                 else{
                     this.slide=0
-                    this.title=this.saleSlide[this.slide].title.rendered 
-                    this.content=this.saleSlide[this.slide].excerpt.rendered
+                    this.title=this.saleSlide[this.slide].title.rendered;
+                    this.content=this.saleSlide[this.slide].excerpt.rendered;
                 }
             }
             
         },   
     async mounted() {   
         this.nameRoute=this.$route.name;
-        setInterval(this.SlideAuto, 10000);
         this.saleSlide = await SaleService.findAll();
+        setInterval(this.SlideAuto, 10000);
         this.maxSlide = this.saleSlide.length - 1;
-        this.title=this.saleSlide[this.slide].title.rendered 
-        this.content=this.saleSlide[this.slide].excerpt.rendered 
     }
 }
 </script>

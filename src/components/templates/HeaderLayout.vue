@@ -2,7 +2,7 @@
   <div>
     <header>
       <div class="header--title">
-        <router-link v-bind:to="{ name: 'home' }" class="header--title__logo">
+        <router-link v-bind:to="{ name: 'root' }" class="header--title__logo">
           <img v-bind:src="logoApe" alt="logo APE">
         </router-link>
         <h1><span>A</span>ssociation des <span>P</span>arents d'<span>E</span>lèves <div class="header--town">de

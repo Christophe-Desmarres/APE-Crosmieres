@@ -1,20 +1,23 @@
 {
-    "name": "Web App apecrosmieres",
-    "short_name": "apecrosmieres",
-    "description": "application web progessive du site de l'ape de Crosmières en Sarthe.",
-    "icons": [{
-            "src": "icons/icon-32.png",
-            "sizes": "32x32",
-            "type": "image/png"
-        },
-        {
-            "src": "icons/icon-512.png",
-            "sizes": "512x512",
-            "type": "image/png"
-        }
-    ],
-    "start_url": ".",
-    "display": "fullscreen",
-    "theme_color": "#6dcdb1",
-    "background_color": "#46BFC7"
+    "pwa": {
+
+        "name": "Web App apecrosmieres",
+        "short_name": "apecrosmieres",
+        "description": "application web progessive du site de l'ape de Crosmières en Sarthe.",
+        "icons": [{
+                "src": "icons/icon-32.png",
+                "sizes": "32x32",
+                "type": "image/png"
+            },
+            {
+                "src": "icons/icon-512.png",
+                "sizes": "512x512",
+                "type": "image/png"
+            }
+        ],
+        "start_url": "/",
+        "display": "fullscreen",
+        "theme_color": "#6dcdb1",
+        "background_color": "#46BFC7"
+    }
 }

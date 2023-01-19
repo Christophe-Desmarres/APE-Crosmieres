@@ -1,6 +1,6 @@
 <template>
     
-    <div class="sale--card">
+    <div class="sale--card" v-if="id >= 0">
         <router-link v-bind:to="{name: 'sale', params: {id: id}}">
             <h2 class="sale--card__title">
                 <div v-html="title"></div>
@@ -11,6 +11,16 @@
             </div>
         </router-link>
     </div>
+    <div class="sale--card" v-else>
+            <h2 class="sale--card__title">
+                <div v-html="title"></div>
+            </h2>
+            <img class="sale--card__img">
+            <div class="sale--card__excerpt">
+                <div v-html="excerpt"></div>
+            </div>
+    </div>
+
             
 </template>
 
@@ -19,6 +29,7 @@
 export default {
     name: 'SaleHomeListLayout',
 
+    // id = -1 if no sale
     props: {
         title: String,
         excerpt: String,

@@ -1,6 +1,7 @@
 <template>
   <HeaderLayout />
   <main class="home--container">
+    <PWALayout />
     <SalesHomeSliders />
     <EventsHomeLayout />
     <SalesHomeLayout />
@@ -15,6 +16,7 @@ import EventsHomeLayout from "@/components/events/EventsHomeLayout.vue";
 import SalesHomeLayout from "@/components/sales/SalesHomeLayout.vue";
 import FooterLayout from "@/components/templates/FooterLayout.vue";
 import SalesHomeSliders from "@/components/sales/SalesHomeSliders.vue";
+import PWALayout from "@/components/PWA/PWALayout.vue";
 
 export default {
   name: "HomeView",
@@ -29,6 +31,7 @@ export default {
     SalesHomeLayout,
     FooterLayout,
     SalesHomeSliders,
+    PWALayout,
   },
   mounted() {
     //for change title view page

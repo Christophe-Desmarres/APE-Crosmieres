@@ -22,7 +22,18 @@ export default {
     async mounted() {
         //list of s from our API
         this.salesList = await SaleService.findAll();
-        
+        // if not sales in database
+        if(this.salesList.length == 0){
+            this.salesList = [{
+                id: -1,
+                title: {
+                    rendered: 'pas de ventes en cours'
+                },
+                excerpt: {
+                    rendered: 'rdv prochainement'
+                }
+            }]
+        } 
     },
 
     data() {
