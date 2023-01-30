@@ -9,11 +9,12 @@
             <input type="text" placeholder="Rechercher..." v-model="searchString">
         </div>
         <div class="sale--list">
-            <SaleListLayout v-bind:image="
-        sale.featured_media !== 0
-            ? sale._embedded['wp:featuredmedia'][0].source_url : defaultPicture" v-bind:id="sale.id"
-                v-bind:title="sale.title.rendered" v-bind:content="sale.content.rendered" v-for="sale in salesNewList"
-                v-bind:key="sale.id" />
+            <SaleListLayout 
+            v-bind:image="sale.featured_media !== 0 ? sale._embedded['wp:featuredmedia'][0].source_url : defaultPicture" 
+            v-bind:id="sale.id"
+            v-bind:title="sale.title.rendered" 
+            v-bind:content="sale.content.rendered" v-for="sale in salesNewList"
+            v-bind:key="sale.id" />
         </div>
     </section>
 </template>
@@ -35,6 +36,20 @@ export default {
     async mounted() {
         //list of s from our API
         this.salesList = await SaleService.findAll();
+        console.log(this.salesList);
+        // if not sales in database
+        if (this.salesList.length == 0) {
+            this.salesList = [{
+                id: -1,
+                title: {
+                    rendered: 'Pas de ventes en cours'
+                },
+                content: {
+                    rendered: 'Rendez-vous prochainement'
+                },
+                featured_media: 0
+            }]
+        }
 
     },
 

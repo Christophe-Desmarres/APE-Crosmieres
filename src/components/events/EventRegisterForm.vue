@@ -143,7 +143,7 @@ export default {
       nbrepas: null,
       orderList: [{
         retrait: '',
-        nombre: 0,
+        nombre: 1,
         taille: '',
         menu: '',
       }],
@@ -153,6 +153,8 @@ export default {
     };
   },
   methods: {
+
+    // to add a new order
     addOrder() {
       this.orderList.push({
         retrait: '',
@@ -162,8 +164,20 @@ export default {
       });
     },
 
+    // to remove an order
     removeOrder(index) {
       this.orderList.splice(index, 1)
+    },
+
+    // to create an order number
+    createOrderNumber() {
+      let date = new Date();
+      let minute = date.getMinutes();
+      let second = date.getSeconds();
+      let orderNumber = this.name.charAt(0).toUpperCase()+ minute + second;
+      console.log(orderNumber);
+      // return orderNumber;
+
     },
 
     // to submit fields and send email
@@ -171,7 +185,9 @@ export default {
       // Reset error and alert table
       this.errors = [];
       this.alerts = null;
+      let orderNum = null;
 
+      
       // Form Content Validation
       if (!this.name) {
         this.errors.push("Veuillez remplir un nom svp");
@@ -201,36 +217,43 @@ export default {
           if (order.nombre === 0 || isNaN(order.nombre)) {
             this.errors.push(
               "Veuillez remplir un nombre de menu correct (0-99)"
-            );
-          }
-          if (order.retrait === '') {
-            this.errors.push(
-              "Veuillez remplir un retrait correct"
-            );
-          }
-          if (order.taille === '') {
-            this.errors.push(
-              "Veuillez remplir une taille correcte"
-            );
-          }
-          if (order.menu === '') {
-            this.errors.push(
-              "Veuillez remplir un menu correct"
-            );
-          }
+              );
+            }
+            if (order.retrait === '') {
+              this.errors.push(
+                "Veuillez remplir un retrait correct"
+                );
+              }
+              if (order.taille === '') {
+                this.errors.push(
+                  "Veuillez remplir une taille correcte"
+                  );
+                }
+                if (order.menu === '') {
+                  this.errors.push(
+                    "Veuillez remplir un menu correct"
+                    );
+                  }
+                  
+                });
+              }
+              
+              
+              
+              
+              
+              
+              // Send form request if no error
+              if (this.participate || this.help || this.order) {
+                if (this.errors.length === 0) {
+                  // create order number
+                  if (this.order) {
+                    orderNum = this.createOrderNumber();
+                  }
 
-        });
-      }
-
-
-
-
-      // Send form request if no error
-      if (this.participate || this.help || this.order) {
-        if (this.errors.length === 0) {
-          let id = this.$route.params.id;
-          const event = await EventService.find(id);
-          if (event.code) {
+                  let id = this.$route.params.id;
+                  const event = await EventService.find(id);
+                  if (event.code) {
             this.$router.push({ name: "404" });
           }
           let params = {
@@ -245,6 +268,7 @@ export default {
             endTime: this.endTime,
             eventTitle: event.title.rendered,
             orderList: this.orderList,
+            orderNum: orderNum,
           };
           const response = await UserService.sendEmail(params);
           // reset field if send ok

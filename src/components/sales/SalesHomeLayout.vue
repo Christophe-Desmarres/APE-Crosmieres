@@ -27,10 +27,10 @@ export default {
             this.salesList = [{
                 id: -1,
                 title: {
-                    rendered: 'pas de ventes en cours'
+                    rendered: 'Pas de ventes en cours'
                 },
                 excerpt: {
-                    rendered: 'rdv prochainement'
+                    rendered: 'Rendez-vous prochainement'
                 }
             }]
         } 

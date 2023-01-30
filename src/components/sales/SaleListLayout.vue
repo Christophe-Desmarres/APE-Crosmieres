@@ -3,8 +3,19 @@
 
     <div class="sale--card">
 
-        <router-link v-if="backOffice == false" v-bind:to="{ name: 'sale', params: { id: id } }">
-
+        <div v-if="backOffice == false && id !== -1" >
+            <router-link v-bind:to="{ name: 'sale', params: { id: id } }">
+                <div class="sale--card__media--image" v-bind:style="'background-image:url(' + image + ')'"></div>
+                <h2 class="sale--card__title">
+                    <div v-html="title"></div>
+                </h2>
+                <div class="sale--card__content">
+                    <div v-html="content"></div>
+                </div>
+            </router-link>
+        </div>
+            
+            <div v-else > 
             <div class="sale--card__media--image" v-bind:style="'background-image:url(' + image + ')'"></div>
             <h2 class="sale--card__title">
                 <div v-html="title"></div>
@@ -12,7 +23,7 @@
             <div class="sale--card__content">
                 <div v-html="content"></div>
             </div>
-        </router-link>
+        </div>
 
         <!-- VERSION BACK-OFFICE -->
         <div v-if="backOffice == true">
