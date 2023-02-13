@@ -1,10 +1,10 @@
 <template>
   <div class="wrapper">
     <div class="container">
-      <button v-if="showForm == false" @click="showForm = true">
+      <button v-if="showForm == false && openFormRegister !== true" @click="showForm = true">
         Je m'inscris
       </button>
-      <div v-if="showForm">
+      <div v-if="showForm || openFormRegister">
         <div class="download">
           <a @click="downloadimg" class="download__link">
             Formulaire d'inscription
@@ -21,16 +21,19 @@
 
           <label class="field__label"> Je veux </label>
           <div class="button--radio__group">
-            <div class="button--radio__element">
+
+            <div class="button--radio__element" v-if="options.participate">
               <input type="checkbox" class="button--radio" v-model="participate" value="participer" id="participate" />
               <label class="button--radio__title" for="participate">Participer</label>
             </div>
-            <div class="button--radio__element">
+
+            <div class="button--radio__element" v-if="options.help">
               <input type="checkbox" class="button--radio" v-model="help" value="aider" id="help" />
               <label class="button--radio__title" for="help">Aider à l'organisation</label>
             </div>
-            <div class="button--radio__element">
-              <input type="checkbox" class="button--radio" v-model="order" value="commander" id="order" />
+
+            <div class="button--radio__element" v-if="options.order">
+              <input type="checkbox" class="button--radio" v-model="order" name="order" value="commander" id="order"/>
               <label class="button--radio__title" for="order">Commander</label>
             </div>
           </div>
@@ -55,7 +58,7 @@
 
 
           <!-- implementation menu-->
-          <ul v-if="order" class="responsive-table">
+          <ul v-if="order ||  (options.order && openFormRegister)" class="responsive-table">
             <li class="table-header">
               <div class="col col-0">retrait</div>
               <div class="col col-1">nombre</div>
@@ -127,6 +130,10 @@ import add from "@/assets/images/crayon-1042.png";
 
 export default {
   name: "EventRegisterForm",
+  props: {
+    openFormRegister: Boolean,
+    options: Object,
+  },
   data() {
     return {
       add: add,
@@ -143,7 +150,7 @@ export default {
       nbrepas: null,
       orderList: [{
         retrait: '',
-        nombre: 1,
+        nombre: 0,
         taille: '',
         menu: '',
       }],
@@ -175,8 +182,7 @@ export default {
       let minute = date.getMinutes();
       let second = date.getSeconds();
       let orderNumber = this.name.charAt(0).toUpperCase()+ minute + second;
-      console.log(orderNumber);
-      // return orderNumber;
+      return orderNumber;
 
     },
 
@@ -211,6 +217,10 @@ export default {
       //     "Veuillez remplir un nombre de menu correct (0-99)"
       //   );
       // }
+
+      if (this.options.order && this.openFormRegister){
+        this.order = true;
+      } 
 
       if (this.order) {
         this.orderList.forEach(order => {

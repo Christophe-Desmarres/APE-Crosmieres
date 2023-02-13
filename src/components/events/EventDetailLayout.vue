@@ -11,7 +11,11 @@
     <img class="event--card__media--image" v-bind:src="image" />
 
     <div class="event--card__content" v-html="content"></div>
-    <event-register-form v-if="this.term === 'actuality'" />
+    <event-register-form 
+    v-bind:openFormRegister='false'
+    v-bind:options={participate:true,help:true,order:true} 
+    v-if="this.term === 'actuality'"
+    />
   </section>
 </template>
 

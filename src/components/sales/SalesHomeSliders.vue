@@ -67,8 +67,13 @@ export default {
     async mounted() {   
         this.nameRoute=this.$route.name;
         this.saleSlide = await SaleService.findAll();
-        setInterval(this.SlideAuto, 10000);
-        this.maxSlide = this.saleSlide.length - 1;
+        if(this.saleSlide != null){
+            setInterval(this.SlideAuto, 10000);
+            this.maxSlide = this.saleSlide.length - 1;
+        }else{
+            // this.maxSlide = -1;
+            console.log('liste de ventes vide');
+        }
     }
 }
 </script>

@@ -63,6 +63,13 @@ const routes = [
     component: () => import( /* webpackChunkName: "login" */ '../views/registration/UserRegisterView.vue')
   },
 
+    //Road for registration form to event
+    {
+      path: '/inscription-soiree',
+      name: 'event-registration',
+      component: () => import( /* webpackChunkName: "login" */ '../views/events/EventRegisterView.vue')
+    },
+
   //Road for events list
   {
     path: '/liste-des-evenements',
@@ -159,12 +166,15 @@ router.beforeEach((to) => {
     case 'registration':
       return true;
 
-    case '404':
+    case 'event-registration':
       return true;
-
 
     case 'legal-notices':
       return true;
+
+    case '404':
+      return true;
+
 
       // Road page for Registered 
     case 'memberList':
